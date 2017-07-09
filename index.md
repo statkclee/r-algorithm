@@ -17,6 +17,7 @@ title: 데이터 과학을 위한 R 알고리즘
 - **R 코딩** [^grokking-algorithms] [^grokking-algorihtms-github]
     - [이진검색(Binary Search)](r-binary-search.html)
     - [선택정렬(Selectin Sort)](r-selection-sort.html)
+    - [재귀(Recursion)](r-recursion.html)
 
 [^grokking-algorithms]: [Aditya Y. Bhargava(2016, "Grokking Algorithms - An illustrated guide for programmers and other curious people", Manning Publications](https://www.manning.com/books/grokking-algorithms)
 
