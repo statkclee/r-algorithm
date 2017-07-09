@@ -1,0 +1,179 @@
+# 데이터 과학을 위한 R 알고리즘
+
+
+## 1. 루프를 활용 합산 
+
+루프를 활용한 벡터의 합계를 구하는 알고리즘은 `total`을 `0`으로 선언하고 나서,
+루프를 돌려 벡터 각 원소를 꺼내 `total`에 더하여 합계를 구한다.
+
+
+```r
+sum_fun <- function(vec) {
+  total <- 0
+  for(i in seq_along(vec)) {
+    total <- total + i
+  }
+  return(total)
+}
+
+vec <- c(1,2,3,4,5)
+
+sum_fun(vec)
+```
+
+```
+## [1] 15
+```
+
+```r
+sum_fun(vec[1])
+```
+
+```
+## [1] 1
+```
+
+## 2. 재귀를 활용 합산 
+
+재귀를 활용하여 합계를 구하는 방식은 기본 사례를 두고 `sum_fun`에 첫번째 벡터 원소에 하나 적은 벡터를 입력으로 받는 함수를 
+재귀적으로 호출하여 합계를 구한다.
+
+
+```r
+sum_fun <- function(vec) {
+  if (length(vec) <= 1) {
+    return(vec)
+  } else {
+    return(vec[1] + sum_fun(vec[2:length(vec)]))
+  }
+}
+
+sum_fun(vec)
+```
+
+```
+## [1] 15
+```
+
+```r
+sum_fun(vec[1])
+```
+
+```
+## [1] 1
+```
+
+## 3. 재귀를 활용한 갯수 구하는 방법
+
+재귀를 활용하여 벡터 원소 갯수를 구하는 방식은 기본 사례를 두고 `count`에 첫번째 원소 갯수에 하나 적은 벡터를 입력으로 받는 함수를 
+재귀적으로 호출하여 벡터 전체 갯수를 구한다.
+
+
+```r
+count <- function(vec) {
+  if (length(vec) <= 1) {
+    return(1)
+  } else {
+    return(1 + count(vec[2:length(vec)]))
+  }
+}
+
+count(vec)
+```
+
+```
+## [1] 5
+```
+
+```r
+count(vec[1:3])
+```
+
+```
+## [1] 3
+```
+
+## 4. 재귀를 활용한 벡터 최대값 구하는 방법
+
+재귀를 활용하여 벡터 최대값를 구하는 방식은 기본 사례를 두고 `max_fun`에 첫번째 벡터와 하나 적은 벡터를 입력으로 받는 함수를 
+재귀적으로 호출하여 벡터값을 비교함으로써 벡터 최대값을 구한다.
+
+
+```r
+max_fun <- function(vec) {
+  if (length(vec) == 2) {
+    return(ifelse(vec[1] > vec[2], vec[1], vec[2]))
+  } else {
+    sub_max <- max_fun(vec[2:length(vec)])
+    return(ifelse(vec[1] > sub_max, vec[1], sub_max))
+  }
+}
+
+vec <- c(1,2,3,4,5)
+
+max_fun(vec)
+```
+
+```
+## [1] 5
+```
+
+```r
+max_fun(vec[2:3])
+```
+
+```
+## [1] 3
+```
+
+## 5. 퀵정렬 
+
+퀵정렬은 첫번째 벡터 원소값을 무엇으로 선택하느냐에 따라 성능차이가 크다.
+첫번째 예제는 벡터 첫번째 원소를 선택한 후 피봇값보다 작은 것은 `less`,
+큰 것은 `greater`로 전체 벡터를 구분한다. 
+그리고, 이 과정을 재귀적으로 반복하게 되면 정렬된 벡터를 얻게 된다.
+
+두번째 예제는 코드가 동일하고 피벗을 선택하는 것을 중앙값으로 선정하도록 수정했다.
+피봇을 첫번째 선택한 것과 비교하여 퀵정렬 속도가 향상되는 것으로 알려져있다.
+
+
+```r
+vec <- c(5,2,3,4,1)
+# Select the first element as a pivot
+quicksort <- function(vec) {
+  if(length(vec) <= 1) {
+    return(vec)
+  } else {
+    pivot <- vec[1]
+    less <- vec[vec < pivot]
+    greater <- vec[vec > pivot]
+    return(c(quicksort(less), pivot, quicksort(greater)))
+  }
+}
+
+quicksort(vec)
+```
+
+```
+## [1] 1 2 3 4 5
+```
+
+```r
+# Select the middle element as a pivot
+quicksort_pv <- function(vec) {
+  if(length(vec) <= 1) {
+    return(vec)
+  } else {
+    pivot <- floor((min(vec)+max(vec))/2L)
+    less <- vec[vec < pivot]
+    greater <- vec[vec > pivot]
+    return(c(quicksort_pv(less), pivot, quicksort_pv(greater)))
+  }
+}
+
+quicksort_pv(vec)
+```
+
+```
+## [1] 1 2 3 4 5
+```
