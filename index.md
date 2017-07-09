@@ -14,9 +14,20 @@ title: 데이터 과학을 위한 R 알고리즘
 
 ## 학습목차 
 
-- **R 코딩**
-    - [이진검색](r-binary-search.html)
+- **R 코딩** [^grokking-algorithms] [^grokking-algorihtms-github]
+    - [이진검색(Binary Search)](r-binary-search.html)
 
+[^grokking-algorithms]: [Aditya Y. Bhargava(2016, "Grokking Algorithms - An illustrated guide for programmers and other curious people", Manning Publications](https://www.manning.com/books/grokking-algorithms)
+
+[^grokking-algorihtms-github]: [Code for the book Grokking Algorithms](https://github.com/egonSchiele/grokking_algorithms)
+
+> ### 빅오 표기법 {.callout}
+>
+> - $\mathcal{O}(log(n))$: 로그소요 시간, 예를 들어 이진검색(Binary Search)
+> - $\mathcal{O} (n)$: 선형소요 시간, 단순 검색(Simple Search)
+> - $\mathcal{O} (n \times log(n))$: 빠른 검색 알고리즘 퀵정렬(quicksort)
+> - $\mathcal{O}(n^2)$: 느린 정렬 알고리즘, 선택정렬(selection sort)
+> - $\mathcal{O}(n!)$. 정말 느린 알고리즘, 외판원 여행 문제(traveling salesperson problem)
 
 ### xwMOOC 오픈 교재
 
