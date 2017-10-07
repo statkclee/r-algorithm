@@ -19,6 +19,9 @@ title: 데이터 과학을 위한 R 알고리즘
     - [선택정렬(Selectin Sort)](r-selection-sort.html)
     - [재귀(Recursion)](r-recursion.html)
     - [분할정복(Divide&Conquer) - 퀵정렬(Quick Sort)](r-quick-sort.html)
+- **확률**
+    - [생일문제(Birthday Problem)](r-birthday-problem.html) 
+
 
 [^grokking-algorithms]: [Aditya Y. Bhargava(2016, "Grokking Algorithms - An illustrated guide for programmers and other curious people", Manning Publications](https://www.manning.com/books/grokking-algorithms)
 
