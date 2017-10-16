@@ -24,6 +24,7 @@ title: 데이터 과학을 위한 R 알고리즘
     - [몬티홀 문제(Monty Hall Problem)](r-monty-hall-problem.html) 
 - **문제 해결**    
     - [최단 도시 연결(Minimal Spanning Tree)](r-minimal-spanning-tree.html) 
+    - [지도 색칠 문제(Graph Coloring Problem)](r-graph-coloring-problem.html) 
 
 
 [^grokking-algorithms]: [Aditya Y. Bhargava(2016, "Grokking Algorithms - An illustrated guide for programmers and other curious people", Manning Publications](https://www.manning.com/books/grokking-algorithms)
