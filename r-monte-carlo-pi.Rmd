@@ -1,0 +1,188 @@
+---
+layout: page
+title: 데이터 과학을 위한 R 알고리즘
+subtitle: 원주율 ($\pi$)
+output:
+  html_document: 
+    toc: yes
+    keep_md: yes
+  pdf_document:
+    latex_engine: xelatex
+mainfont: NanumGothic
+---
+
+```{r, include=FALSE}
+source("tools/chunk-options.R") 
+
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+
+# 0. 환경설정 ------------------------------------
+library(purrr)
+library(shape)
+library(tidyverse)
+library(hrbrthemes)
+library(extrafont)
+loadfonts()
+
+options(scipen = 999)
+options(family="NanumGothic")
+
+```
+
+## 1. 기계를 활용한 원주율 계산 [^r-monte-carlo] {#pi}
+
+[^r-monte-carlo]: [Estimating Pi with R via MCS-Dart: A very simple example of numerical integration, illustrated and computed in R.](http://giventhedata.blogspot.kr/2012/09/estimating-pi-with-r-via-mcs-dart-very.html)
+
+컴퓨터를 활용하여 원주율을 계산하기 위해서 사각형 면적과 원면적 비율을 활용하여 원주율($\pi$)를 도출한다.
+
+즉, 가로세로가 2인 사각형내부에 반지름이 1인 원을 내접하여 표현하면 다음과 같이 그려본다.
+
+``` {r pi-overview}
+# library(purrr)
+# library(shape)
+# library(tidyverse)
+# library(hrbrthemes)
+# library(extrafont)
+# loadfonts()
+
+## 1.1. 반지름 1인 원 ------------------------------
+r <- 1
+par(pty="s")
+emptyplot(c(0, 0),frame.plot=r)
+plotcircle(r=r, mid=c(0,0), lwd=1, lcol="blue")
+lines(x=c(0,1),y=c(0,0), lty=1, col="red")
+lines(x=c(-1,1),y=c(0,0), lty=2)
+lines(y=c(-1,1),x=c(0,0), lty=2)
+axis(1)
+axis(2)
+text(x=0.5,y=0.2, labels=expression("r=1"), col="red")
+```
+
+피타고라스 정리를 이용하여 원 내부에 위치하면 원 내부면적에 위치하는지를 파악한다.
+
+- $\text{원면적} = \pi \times r^2$
+- $\text{정사각형면적} = {(2 \times r)}^2 = 4 \times r^2$
+
+상기 두 면적의 비를 통하여 원주율($\pi$)를 다음과 같이 수식을 정리하여 도출한다.
+
+$$\frac{\text{원 면적}}{\text{정사각형 면적}} = \frac{\pi \times r^2}{4 \times r^2}$$
+$\pi$에 관해 수식을 정리하면 다음과 같다.
+
+$$\pi = 4 \times \frac{\text{원 면적}}{\text{정사각형 면적}}$$
+
+
+``` {r pi-Pythagorean}
+## 1.2. 피타고라스 정리 ------------------------------
+### 원
+emptyplot(frame.plot=r)
+plotcircle(r=r, mid=c(0,0), lwd=1,lcol="blue")
+lines(x=c(0,1),y=c(0,0), lty=1, col="red")
+lines(x=c(-1,1),y=c(0,0), lty=2)
+lines(y=c(-1,1),x=c(0,0), lty=2)
+axis(1)
+axis(2)
+
+### 피타고라스 정리
+points(x=0.8,y=0.58,col="red", lwd=2)
+lines(x=c(0,0.8), y=c(0,0), col="red", lwd=2)
+lines(x=c(0.8,0.8), y=c(0,0.58), col="red", lwd=2)
+lines(x=c(0,0.8), y=c(0,0.58), col="red", lty=2,lwd=2)
+text(x=0.4,y=0.4,"c",col="red")
+title(expression(c == sqrt(a^2 + b^2)))
+```
+
+## 2. 몬테카를로 모의실험  {#r-monte-carlo-sim}
+
+`simulate_pi` 함수를 만들어서 정사각형 길이가 2가 되기 때문에 -1에서 1사이 일양분포(uniform)에서 x, y 좌표 점을 
+무작위로 뽑아내서 피타고라스 정리를 활용하여 원 내부에 위치하는지 원 외부에 위치하는지 파악한다.
+이를 부울을 R 내부적으로 데이터를 표현하는 특성을 활용하여 더하면 원내부 위치하는 점의 갯수가 되고 이를 
+전체 모의실험 횟수로 나누게 되면 원주율을 계산할 수 있다.
+
+``` {r monte-carlo-sim}
+# 2. 몬테카를로 모의실험 -----------------------
+
+simulate_pi <- function(iter = 1000) {
+  
+  x_pos <- runif(iter, min=-1, max=1)
+  y_pos <- runif(iter, min=-1, max=1)
+
+  xy_pos <- ifelse(x_pos^2 + y_pos^2 <= 1, TRUE, FALSE)
+  
+  pi_val <- 4*(sum(xy_pos)/iter)
+  return(pi_val)
+}
+
+simulate_pi(1000000)
+
+# 3. 원주율 값 수렴 시각화  -----------------------
+## 3.1. 데이터 준비 -------------------------------
+sim_iter_lst <- list()
+
+for(i in 1:10^5) {
+  if(i %% 100 == 0) {
+    sim_iter_lst[[length(sim_iter_lst)+1]] <- i
+  }
+}
+
+iter_v <- sim_iter_lst %>% unlist
+pi_v <- map(sim_iter_lst, simulate_pi) %>% unlist
+
+pi_df <- data.frame("반복횟수"=iter_v, "원주율"=pi_v)
+
+DT::datatable(pi_df) %>% 
+  DT::formatCurrency("원주율", currency ="", interval = 3, mark = ",", digits = 5)
+```
+
+모의실험횟수가 증가함에 따라 위키백과사전 [원주율](https://ko.wikipedia.org/wiki/%EC%9B%90%EC%A3%BC%EC%9C%A8) 값에 수렴되는지를 
+시각적으로 확인한다. 
+
+> 원주율: "3.1415926535897932384626433832795028841971"
+
+``` {r monte-carlo-sim-plot}
+## 3.2. 시각화 -------------------------------
+
+ggplot(pi_df, aes(x=반복횟수, y=원주율)) +
+  geom_line() +
+  theme_ipsum(base_family="NanumGothic") +
+  labs(x="모의실험횟수", y="원주율값") +
+  scale_x_continuous(labels = scales::comma) +
+  geom_hline(yintercept = 3.1415926535897932384626433832795028841971, color="red")
+```
+
+## 3. 몬테카를로 모의실험 시각화 {#r-monte-carlo-sim-viz}
+
+원주율을 계산하는 몬테카를로 모의실험 결과를 시각화해보자.
+1,000회 난수를 추출하여 이를 앞서 계산한 로직에 맞춰 결과값이 원내부에 위치하면 검은색 점으로,
+원외부에 위치하면 붉은색 점으로 표현하여 보자.
+
+
+``` {r monte-carlo-sim-plot-dots}
+# 4. 모의실험 1000회 시각화 ------------------------------
+r <- 1
+par(pty="s")
+emptyplot(c(0, 0),frame.plot=r)
+plotcircle(r=r, mid=c(0,0), lwd=1, lcol="blue")
+lines(x=c(0,1),y=c(0,0), lty=1, col="red")
+lines(x=c(-1,1),y=c(0,0), lty=2)
+lines(y=c(-1,1),x=c(0,0), lty=2)
+axis(1)
+axis(2)
+text(x=0.5,y=0.2, labels=expression("r=1"), col="red")
+
+draw_point <- function(iter = 10) {
+  
+  x_pos <- runif(iter, min=-1, max=1)
+  y_pos <- runif(iter, min=-1, max=1)
+  
+  for(i in seq_along(x_pos)) {
+    if( x_pos[i]^2+y_pos[i]^2 <=1 ) {
+      points(x_pos[i], y_pos[i], col="black")
+    } else {
+      points(x_pos[i], y_pos[i], col="red")
+    }
+  } 
+}
+
+draw_point(1000)
+```
+
