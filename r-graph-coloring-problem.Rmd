@@ -49,5 +49,48 @@ Southland를 빨간색으로 색칠해서 지도상에 단지 두가지 색으�
 <img src="fig/graph-coloring-problem.png" alt="그래프 색칠 문제 추상화 과정" width="100%" />
 
 
+## 2. 체스판 색칠 [^r-mapcoloring] {#chess-board-colouring}
+
+[^r-mapcoloring]: [MapColoring - Optimal contrast coloring of polygon maps](https://github.com/hunzikp/MapColoring)
 
 
+[MapColoring](https://philipphunziker.wordpress.com/2015/11/10/solving-the-map-coloring-problem-in-r/) 팩키지가 있어 이를 활용하여 
+지도제작자로서 최소의 색상을 활용하여 색깔을 칠해보자. 
+이에 앞서 가장 간단한 체스판을 대상으로 생색을 칠해보자.
+
+`sp` 팩키지 `GridTopology` 함수를 활용하여 가로 8, 세로 8 크기를 갖는 체스판 격자를 생성한다.
+그리고 나서, `MapColoring` 팩키지 `getNColors` 함수로 해당 체스판에 필요한 최소 색상을 파악하고,
+해당 체스판 각 격자에 어떤 색상이 필요한지 색칠해 나간다.
+그리고, `MapColoring` 팩키지의 `getOptimalContrast` 함수를 활용하여 색상에 대해 최대한 식별이 될 수 있도록 
+체스판을 도색한다.
+
+``` {r chess-board-colouring}
+# 0. 환경설정 --------------------------
+
+# devtools::install_github("hunzikp/MapColoring")
+library(MapColoring)
+library(sp)
+
+# 1. 체스판 만들기 --------------------------
+
+chess_gt <- GridTopology(c(0,0), c(1,1), c(8,8))
+chess_sg <- SpatialGrid(chess_gt)
+chess_board <- as(as(chess_sg, "SpatialPixels"), "SpatialPolygons")
+
+# 2. 체스판 색칠 --------------------------
+## 2.1. 색칠 갯수
+(chess_ncol <- getNColors(chess_board))
+
+## 2.2. 체스판 색칠 인덱스
+(chess_coloring_idx <- getColoring(chess_board))
+
+## 2.3. 체스판 색칠 --------------------------
+candidate_colors <- RColorBrewer::brewer.pal(11, "Paired")
+optimal_colors <- getOptimalContrast(x=chess_board, col=candidate_colors)
+
+par(mar=c(0,0,0,0))
+par(mfrow=c(1,2))
+
+plot(chess_board)
+plot(chess_board, col=optimal_colors)
+```
