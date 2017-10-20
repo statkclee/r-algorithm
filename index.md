@@ -19,6 +19,7 @@ title: 데이터 과학을 위한 R 알고리즘
     - [선택정렬(Selectin Sort)](r-selection-sort.html)
     - [재귀(Recursion)](r-recursion.html)
     - [분할정복(Divide&Conquer) - 퀵정렬(Quick Sort)](r-quick-sort.html)
+    - [유클리드 호제법(Euclidean Algorithm)-최대공약수](r-euclid-algorithm.html)
 - **확률**
     - [생일문제(Birthday Problem)](r-birthday-problem.html) 
     - [몬티홀 문제(Monty Hall Problem)](r-monty-hall-problem.html) 
