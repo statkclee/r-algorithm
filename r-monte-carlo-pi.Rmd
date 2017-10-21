@@ -186,3 +186,51 @@ draw_point <- function(iter = 10) {
 draw_point(1000)
 ```
 
+## 4. 함수 적분 {#monte-carlo-integration}
+
+수학 함수의 적분 문제를 푸는데 몬테카를로 모의실험을 동원해서 보자. 
+정의역이 $x \in [0,1]$으로 $x$가 0에서 1 사이이며, 함수 $f(x)$를 다음과 같이 정의해 보자.
+
+$$f(x) = sqrt(1 - x^2 )$$
+
+정의역 구간 $x \in [0,1]$에서 함수 $f(x)$를 적분해 보자. 즉,
+
+$$\int_0^1 \sqrt{1 - x^2 } dx = \frac{\pi} {4}$$
+
+자세한 수학적 증명은 [Integral of $\sqrt{1 - x^2}$ using integration by parts](https://math.stackexchange.com/questions/533082/integral-of-sqrt1-x2-using-integration-by-parts)를 참조한다.
+
+- 부정적분: $\int \sqrt{1-x^2} = \frac{1}{2}x\sqrt{1-x^2} + \frac{1}{2} sin^{-1}x +C$
+- $sin^{-1}x$: $sin^{-1}x = arcsin(1) = \frac{\pi}{2}$ 
+
+### 4.1. 적분함수 {#integration-function}
+
+`integrte` 함수를 활용해서 함수를 정의(`pi_fn`) 한 후 정적분 값을 통해 $\pi$ 값을 계산한다.
+
+``` {r integrate-function}
+
+## 1. 수식에 대한 수치해석 -----------------
+pi_fn <- function(x) sqrt(1-x^2)
+
+integration_val <- integrate(pi_fn, 0, 1) 
+
+integration_val$value * 4
+```
+
+### 4.2. 모의 실험 {#integration-function}
+
+함수가 정의되었다면 모의실험을 통한 결과를 시각화해보자.
+$pi_fn$ 함수가 정의되어 있으니 일양분포 난수를 넣어 `pi_fn` 함수값을 계산하여 평균을 낸다.
+
+
+``` {r integrate-sim}
+## 2. 모의실험 -----------------
+
+pi_sim_lst <- pi_fn(runif(n=1000000)) * 4
+mean(pi_sim_lst)
+
+## 3. 모의실험 시각화 -----------------
+par(pty="s")
+curve(pi_fn, 0,1)
+
+draw_point(1000)
+```
