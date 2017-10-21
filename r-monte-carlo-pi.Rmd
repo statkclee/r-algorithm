@@ -17,6 +17,7 @@ source("tools/chunk-options.R")
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 
 # 0. 환경설정 ------------------------------------
+library(animation)
 library(purrr)
 library(shape)
 library(tidyverse)
@@ -191,7 +192,7 @@ draw_point(1000)
 수학 함수의 적분 문제를 푸는데 몬테카를로 모의실험을 동원해서 보자. 
 정의역이 $x \in [0,1]$으로 $x$가 0에서 1 사이이며, 함수 $f(x)$를 다음과 같이 정의해 보자.
 
-$$f(x) = sqrt(1 - x^2 )$$
+$$f(x) = /sqrt{1 - x^2 }$$
 
 정의역 구간 $x \in [0,1]$에서 함수 $f(x)$를 적분해 보자. 즉,
 
@@ -234,3 +235,56 @@ curve(pi_fn, 0,1)
 
 draw_point(1000)
 ```
+
+## 5. 뷔퐁 바늘(Buffon Needle) {#buffon-need}
+
+[뷔퐁의 바늘](https://ko.wikipedia.org/wiki/%EB%B7%94%ED%90%81%EC%9D%98_%EB%B0%94%EB%8A%98)은 18세기에 뷔퐁 백작이 처음 제기한 문제로,
+너비가 모두 같은 평행한 목재 널빤을 깔아 만든 마루가 있을 때, 그 마루 위에 바늘을 떨어뜨린다. 바늘이 널빤과 널빤 사이의 선을 가로지어 걸칠 확률은 얼마인가?
+기하학 지식과 적분 지식을 가지고 수학적으로 풀 수도 있고, 컴퓨터를 활용하여 몬테카를로 모의 실험을 통해 **원주율($\pi$)**을 구할수 있다.
+
+<img src="fig/buffon-needle.png" alt="뷔퐁 바늘" width="77%" />
+
+- 바늘 가운데에서 가장 가까운 평행선까지의 거리를 $d$로 정의: $d = \left[ 0, { t \over 2} \right]$
+- 바늘과 평행선 사이 각도를 $\theta$로 정의: $\theta = \left[ 0, { \pi \over 2} \right]$
+- 바늘이 선을 가로질러 걸칠 조건: $d \le \frac{l}{2}\sin\theta$
+
+$d, \theta$가 독립이기 때문에 결합확률분포함수를 적분하면 답을 구할 수 있다.
+
+$$P(\frac{sin\theta}{2}>d) = \int_{0}^{\pi} \frac{sin \theta}{2} d \theta = \frac{-cos\theta}{2} \Big|^{\pi}_{0} = 1$$
+
+확률을 구하게 되면 $\frac{\text{내부 면적}}{\text{사각형 면적}} = \frac{\frac{2}{2}}{\frac{\pi}{2}}=\frac{2}{\pi}$ 가 된다.
+
+<iframe width="300" height="180" src="https://www.youtube.com/embed/sJVivjuMfWA" frameborder="0" allowfullscreen></iframe>
+
+### 5.1. 뷔퐁 바늘 모의실험 애니메이션 {#buffon-need-animation}
+
+`animation` 팩키지 내부에 뷔퐁 바늘 모의실험 함수가 있어 이를 실행해서 뷔퐁 바늘 모의실험을 통해 $\pi$가 계산되는 과정을 확인할 수 있다. 자세한 사항 [Simulation of Buffons Needle](https://yihui.name/animation/example/buffon-needle/) 참조한다.
+`ani.options(nmax = 1, 1)` 명령어 `nmax=100` 인자를 조정하면 애니메이션을 확인할 수 있다.
+
+```{r buffon-needle-ani}
+#library(animation)
+ani.options(nmax = 1, 1)
+par(mar = c(3, 2.5, 0.5, 0.2), pch = 20, mgp = c(1.5, 0.5, 0))
+buffon.needle()
+```
+
+### 5.2. 뷔퐁 바늘 모의실험 [^buffon-needle-sim-rcode] {#buffon-need-simulation}
+
+[^buffon-needle-sim-rcode]: [Calculating Pi using Buffon's Needle](http://www.exegetic.biz/blog/2016/07/calculating-pi-using-buffons-needle/)
+
+```{r buffon-needle-rcode}
+
+buffon_needle_sim <- function(needle_len=1, line_spacing=2) {
+  distance <- runif(1, min = 0, max = line_spacing / 2)
+  theta <- runif(1, 0, pi / 2)
+  is_crossed <- distance <= needle_len / 2 * sin(theta)
+  return(is_crossed)
+}
+
+is_crossed <- replicate(10^7, buffon_needle_sim(1, 2))
+
+10^7 / sum(is_crossed)
+```
+
+
+
