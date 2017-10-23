@@ -1,0 +1,139 @@
+---
+layout: page
+title: 데이터 과학을 위한 R 알고리즘
+subtitle: 상트페테르부르크의 역설 (St. Petersburg paradox)
+date: "`r Sys.Date()`"
+output:
+  html_document: 
+    toc: yes
+    keep_md: yes
+  pdf_document:
+    latex_engine: xelatex
+mainfont: NanumGothic
+---
+
+```{r, include=FALSE}
+source("tools/chunk-options.R") 
+
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+
+library(tidyverse)
+library(ggthemes)
+library(extrafont)
+loadfonts()
+
+options(scipen = 999)
+options(family="NanumGothic")
+```
+
+## 1. 세인트 피터스버그의 역설 [^wiki-petersburg] {#petersburg-paradox}
+
+[^wiki-petersburg]: [위키백과 - 상트페테르부르크의 역설](https://ko.wikipedia.org/wiki/%EC%83%81%ED%8A%B8%ED%8E%98%ED%85%8C%EB%A5%B4%EB%B6%80%EB%A5%B4%ED%81%AC%EC%9D%98_%EC%97%AD%EC%84%A4)
+
+상트페테르부르크의 역설(St. Petersburg paradox) 또는 세인트 피터스버그의 역설은 
+경제학에서 사람들의 의사결정에 기댓값이 가지는 의미의 차이에서 발생하는 역설을 말한다. 
+니콜라우스 베르누이 1세(Nicolaus 1 Bernoulli)에 의해 제기되었으며, 
+흔히 사람들은 기댓값을 의사결정의 지표로 삼는다고 생각하지만 그러한 인식에 문제가 있음을 제시하였다.
+
+- 상트페테르부르크의 어떤 도박장이 있다.
+- 도박 참가비는 10,000 루블: 10,000 루블 대략 196,500원 (19.66d원/1루블)
+- 공정한 동전($p=\frac{1}{2}$)을 던져 뒷면이 나오면 계속던짐.
+- $n$ 번째 처음 동전 앞면이 나여면 게임이 종료되고 $2^{n-1}$ 루블을 상금으로 지급받음.
+
+러시아 상트페테르부르크 도박장에서 제시하는 게임에 참가할 것인가?
+
+## 2. 수학적 기대값 [^wolfram-petersburg-paradox] {#mathematical-proof}
+
+[^wolfram-petersburg-paradox]: [Wolfram Mathworld - Saint Petersburg Paradox](http://mathworld.wolfram.com/SaintPetersburgParadox.html)
+
+수학적 기대값을 계산하면 다음과 같다.
+
+$$\begin{align}
+    E &= \frac{1}{2}\cdot 2+\frac{1}{4}\cdot 4 + \frac{1}{8}\cdot 8 + \frac{1}{16}\cdot 16 + \cdots \\
+      &= 1 + 1 + 1 + 1 + \cdots \\
+      &=\infty \,. \end{align}$$
+
+공전한 동전을 가정하면, 동전 앞면이 나올 확률 ($p=\frac{1}{2}$)이기 때문에 뒷면이 나올 확률은 $1-p=\frac{1}{2}$이 된다.
+이는 $P(\text{앞면이 한번 나올 때까지 n-1번 뒷면이 나옴}$ 확률을 계산하는데 결국,
+
+$$P(\text{n번 동전 던지기}) = P(\text{n-1번 뒷면} \times \text{앞면 한번})) = \left(\frac{1}{2}\right)^{n-1} \times \frac{1}{2}$$  
+
+따라서, 모수로 확률 ($p=\frac{1}{2}$)를 갖는 기하분포가 된다. 즉, 동전 앞면이 나와 도박에서 승리하는데 평균적으로 2번 필요하다.
+기하분포 평균과 분산은 다음과 같다.
+
+$$\operatorname{E}(X) = \frac 1 p, \qquad\operatorname{var}(X) = \frac{1-p}{p^2}$$
+
+## 3. 컴퓨터 모의실험 [^saint-petersburg-simulation] {#computer-simulation}
+
+[^saint-petersburg-simulation]: [Andy Granowitz - St. Petersburg Paradox Simulations](http://www.andygranowitz.com/2015/01/12/r-code-simulation-st-petersburg-paradox.html)
+
+### 3.1. 한번 게임 {#single-play}
+
+동전 던져 나온 상황을 모사한다.
+즉, `sample(c("Head", "Tail"), size=1, prob = c(1/2, 1/2))` 명령어를 통해
+동전을 앞면, 뒷면으로 정의하고 `size=1`을 통해 한번 동전을 던지고, 공정한 동전이라 앞면, 뒷면 확률을 $\frac{1}{2}$로 표현한다.
+
+그리고 나서, 동전 앞면이 나오면 보상으로 동전던지기 횟수만큼 $2^{\text{던지기 횟수}}$ 만큼 보상을 주고 동전던지기 시합을 마무리한다.
+
+이를 10회 반복하는 명령어는 `for(i in 1:10) play_game()`와 같이 작성한다.
+
+``` {r single-play}
+# library(tidyverse)
+# library(ggthemes)
+# library(extrafont)
+# loadfonts()
+
+play_game <- function() {
+    reward <- 0
+    turn   <- 1
+    
+    while(TRUE) {
+        
+        coin_tossed <- sample(c("Head", "Tail"), size=1, prob = c(1/2, 1/2))
+        
+        if(coin_tossed == "Head") {
+            reward <- 2^(turn)
+            # cat("동전 뒷면 횟수:", turn-1, "보상:", reward, "\n")
+            break
+        }
+        turn <- turn + 1
+    }
+    return(reward)
+}
+
+for(i in 1:10) play_game()
+```
+
+### 3.2. 모의실험 많이 하기 {#many-play}
+
+동전 던지기 시합을 기본 1000회 실시하는 함수를 작성한다.
+동전 던지기 결과를 저장할 수 있도록 `game_results`를 생성하고,
+연속평균 결과도 저장할 수 있도록 `rolling_average` 저장소도 정의한다.
+
+`play_iterations` 횟수만큼 동전 던지기 시합을 반복하고,
+이전 동전던지기 결과를 평균내어 저장한다.
+
+그리고 나서, 이를 데이터프레임으로 생성시키고 시각화한다.
+
+``` {r many-play}
+
+run_simulation <- function(play_iterations = 1000) {
+    
+    game_results    <- numeric(play_iterations)
+    rolling_average <-  numeric(play_iterations)
+    
+    for(i in 1:play_iterations) {
+      game_results[i] <- play_game()
+      rolling_average[i] <- mean(game_results[1:i])
+    }
+    
+    data.frame(game_iter = 1:play_iterations, rolling_avg = rolling_average) %>% 
+      ggplot(aes(x=game_iter, y=rolling_avg)) +
+        geom_line() +
+        theme_bw(base_family="NanumGothic") +
+        labs(x="게임반복횟수", y="연속평균", title="동전던지기 모의실험", subtitle="상트페테르부르크의 역설 (St. Petersburg paradox)") +
+        scale_x_continuous(labels = scales::comma)
+}
+
+run_simulation(10000)
+```
