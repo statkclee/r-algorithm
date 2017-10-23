@@ -26,6 +26,7 @@ title: 데이터 과학을 위한 R 알고리즘
     - [원주율($\pi$)](r-monte-carlo-pi.html) 
     - [쿠폰 수집가 문제(Coupon Collector Problem)](r-coupon-collector-problem.html) 
     - [캔디 판매(Selling Candy Problem)](r-selling-candy-problem.html) 
+    - [확률 모의실험(R 연습문제 중심)](r-probability-exercise.html) 
 - **문제 해결**    
     - [최단 도시 연결(Minimal Spanning Tree)](r-minimal-spanning-tree.html) 
     - [지도 색칠 문제(Graph Coloring Problem)](r-graph-coloring-problem.html) 

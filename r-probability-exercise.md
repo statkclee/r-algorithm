@@ -1,0 +1,421 @@
+# 데이터 과학을 위한 R 알고리즘
+
+
+
+
+## 1. 확률 연습문제 기초 [^r-ex-beginner] {#prob-beginner}
+
+[^r-ex-beginner]: [Probability functions beginner](https://www.r-exercises.com/2017/08/17/probability-functions-beginner/)
+
+확률함수 기초에 대한 [연습문제원문](https://www.r-exercises.com/2017/08/17/probability-functions-beginner/)과 
+[해답](https://www.r-exercises.com/2017/08/17/probabilty-functions-beginner-solution/)을 확인한다.
+
+### 1.1. 연습문제 {#beginner-01} 
+
+`runif` 함수를 사용해서 난수를 10개 생성시키시오. 단 난수싸앗은 1로 고정시키고 결과값은 `random_numbers`에 저장하시오.
+
+
+~~~{.r}
+set.seed(1)
+random_numbers <- runif(10)
+~~~
+
+### 1.2. 연습문제 {#beginner-02}
+
+`ifelse` 함수를 사용해서 동전던지기를 모사한다. 힌트: `random_number`가 .5보다 크면 앞면(H), 작으면 뒷면(T)으로 한다.
+
+
+~~~{.r}
+ifelse(random_numbers > .5, "앞면", "뒷면")
+~~~
+
+
+
+~~~{.output}
+ [1] "뒷면" "뒷면" "앞면" "앞면" "뒷면" "앞면" "앞면" "앞면" "앞면" "뒷면"
+
+~~~
+
+
+
+~~~{.r}
+# 동전 던지기 난수를 발생시키는 또 다른 방법은 `rbinom` 함수를 사용하면 된다.
+rbinom(10, size=1, p=.5)
+~~~
+
+
+
+~~~{.output}
+ [1] 0 0 1 0 1 0 1 1 0 1
+
+~~~
+
+### 1.3. 연습문제 {#beginner-03}
+
+`rbinom` 함수를 사용해서 성공확률이 .3인 불공정한 동전에서 난수를 10개 생성시키시오.
+
+
+~~~{.r}
+rbinom(10, size=1, p=.3)
+~~~
+
+
+
+~~~{.output}
+ [1] 1 0 0 0 0 0 0 0 1 0
+
+~~~
+
+
+### 1.4. 연습문제  {#beginner-04}
+
+`runif` 함수를 사용해서 주사위 던지기를 모사한다. `min=0`, `max=6` 사이 난수를 하나 생성시켜, 결과를 `die_roll`에 저장한다. 즉, 1 ~ 6 사이 난수를 생성시킨다.
+
+
+~~~{.r}
+ceiling(runif(1, min=0, max=6))
+~~~
+
+
+
+~~~{.output}
+[1] 3
+
+~~~
+
+### 1.5. 연습문제  {#beginner-05}
+
+정규분포에서 난수를 생성시킨다. 평균 신장이 1.70 미터, 표준편차 0.1 미터를 갖는 모집단을 성정한다.
+`rnorm` 함수를 사용해서 100명에 대한 신장을 난수로 추출하고 나서 `heights` 객체에 저장시킨다.
+`summary` 함수를 활용해서 정규분포에서 추출된 난수를 확인할 수 있다.
+
+
+~~~{.r}
+heights <- rnorm(100, mean=1.7, sd=0.1)
+summary(heights)
+~~~
+
+
+
+~~~{.output}
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  1.478   1.635   1.700   1.699   1.760   1.944 
+
+~~~
+
+### 1.6. 연습문제 {#beginner-06}
+
+`pnorm` 함수를 활용해서 1.9 미터보다 신장이 작거나 같을 확률을 구하시오.
+또, 1.6 미터보다 크거나 같을 확률도 구하시오.
+
+
+~~~{.r}
+pnorm(1.9, mean=1.7, sd=0.1)
+~~~
+
+
+
+~~~{.output}
+[1] 0.9772499
+
+~~~
+
+
+
+~~~{.r}
+1 - pnorm(1.6, mean=1.7, sd=0.1)
+~~~
+
+
+
+~~~{.output}
+[1] 0.8413447
+
+~~~
+
+### 1.7. 연습문제 {#beginner-07}
+
+병원에서 환자가 기다리는 시간(단위: 분)은 1/50을 모수로 갖는 지수분포를 따른다.
+`rexp` 함수를 사용해서 병원에서 30명이 기다리는 대기시간을 모사하시오.
+
+
+~~~{.r}
+set.seed(1)
+rexp(30, rate=1/50)
+~~~
+
+
+
+~~~{.output}
+ [1]  37.759092  59.082139   7.285336   6.989763  21.803431 144.748427
+ [7]  61.478103  26.984142  47.828375   7.352300  69.536756  38.101493
+[13]  61.880178 221.196711  52.727158  51.762197  93.801759  32.737332
+[19]  16.846674  29.423986 118.225763  32.094629  14.706019  28.293276
+[25]   5.303631   2.971958  28.935623 197.946643  58.665605  49.840648
+
+~~~
+
+### 1.8. 연습문제  {#beginner-08}
+
+`pexp` 함수를 사용해서 환자가 10분 미만으로 대기하는 확률을 구하시오.
+
+
+~~~{.r}
+pexp(q=10, rate=1/50)
+~~~
+
+
+
+~~~{.output}
+[1] 0.1812692
+
+~~~
+
+
+### 1.9. 연습문제 {#beginner-09}
+
+평균 대기시간은 어떻게 되는가?
+
+
+~~~{.r}
+mean(rexp(10^7, rate=1/50))
+~~~
+
+
+
+~~~{.output}
+[1] 50.00104
+
+~~~
+
+### 1.10. 연습문제 {#beginner-10}
+
+대기시간이 길어지면 환자들은 다른 병원을 찾게된다. 최대 60 환자가 기다린다고 가정하다.
+환자 100명이 온다면 평균적으로 얼마 많은 환자가 떠나게 될까? 힌트: `pexp` 함수를 사용하라.
+
+
+
+~~~{.r}
+1 - pexp(100, rate=1/50)
+~~~
+
+
+
+~~~{.output}
+[1] 0.1353353
+
+~~~
+
+## 2. 확률 연습문제 중급 [^r-ex-intermediate] {#prob-intermediate}
+
+[^r-ex-intermediate]: [Probability functions intermediate](https://www.r-exercises.com/2017/08/31/probabilty-functions-intermediate/)
+
+확률함수 중급에 대한 [연습문제원문](https://www.r-exercises.com/2017/08/31/probabilty-functions-intermediate/)과 
+[해답](https://www.r-exercises.com/2017/08/31/probability-functions-intermediate-solutions/)을 확인한다.
+
+
+### 2.1. 연습문제 {#intermeidate-01}
+
+
+1. 난수 씨앗을 1로 설정하고, `runif` 함수를 사용해서 난수를 30개 생성하시오. `random_numbers` 객체에 저장하는데, 
+`ceiling` 함수를 사용해서 정수로 만든다. 주사위 던지기를 모사하도록 하시오.
+
+
+~~~{.r}
+ceiling(runif(30, min=0, max=6))
+~~~
+
+
+
+~~~{.output}
+ [1] 5 4 1 5 2 5 5 3 6 6 3 2 2 6 2 1 6 5 3 2 5 2 1 5 3 2 6 6 3 5
+
+~~~
+
+### 2.2. 연습문제 {#intermeidate-02}
+
+`rmultinom` 함수를 사용해서 주사위 한개 던지는 경우를 모사한다.
+함수 내부에 `n=1` 을 설정하고 결과값을 `die_result`에 저장하시오.
+`die_result` 행렬은 1 하나와 5개 0으로 채워져있다.
+1 은 모의실험과정을 거쳐 얻어진 결과를 나타낸다.
+`which` 함수를 사용해서 주사위를 던져 나온 결과값만을 추출하시오
+
+
+~~~{.r}
+(die_result <- rmultinom(n=1, size=1, prob=rep(1/6,6)))
+~~~
+
+
+
+~~~{.output}
+     [,1]
+[1,]    0
+[2,]    0
+[3,]    0
+[4,]    0
+[5,]    0
+[6,]    1
+
+~~~
+
+
+
+~~~{.r}
+which(die_result==1)
+~~~
+
+
+
+~~~{.output}
+[1] 6
+
+~~~
+
+### 2.3. 연습문제 {#intermeidate-03}
+
+`rmultinom` 함수를 사용해서 주사위 던지기를 30회 모사한다.
+`dice_result` 변수이름으로 저장하고 `apply` 함수를 사용해서 행렬결과를 벡터로 저장시키시오.
+
+
+~~~{.r}
+dice_result <- rmultinom(30, size=1, prob=rep(1/6,6))
+
+apply(dice_result, 2, function(x) which(x==1))
+~~~
+
+
+
+~~~{.output}
+ [1] 4 3 5 3 5 6 4 3 6 1 5 2 4 3 1 2 1 5 1 1 2 2 2 4 3 4 4 6 3 5
+
+~~~
+
+### 2.4. 연습문제 {#intermeidate-04}
+
+주사위 2개를 던지는 게임이 일반적인데, 주사위 2개 던진 결과를 합한다.
+주사위 2개 던지기를 합을 구하는 게임을 30회 모사하시오.
+`rmultinom` 함수를 사용해서 주사위 2개를 30회 던지시오.
+`apply` 함수를 사용해서 주사위 2개를 던져 합을 구한 결과를 기록하시오.
+
+
+~~~{.r}
+set.seed(1)
+two_dice_result <- rmultinom(30, size=2, prob=rep(1/6,6))
+apply(two_dice_result, 2, function(x) {
+  values <- c(which(x==1), which(x==2))
+  sum(values)
+  }
+)
+~~~
+
+
+
+~~~{.output}
+ [1]  7  5  6  8  1  5  8  9  9  6  7  7  8 10  6  8  8  3  5  7  8  7  6
+[24]  7  9  2  7  6 10  9
+
+~~~
+
+
+
+~~~{.r}
+# apply(two_dice_result, 2, function(x) sum(which(x==1)))
+~~~
+
+### 2.. 연습문제 {#intermeidate-05}
+
+정규분포에서 난수를 생성시킨다. 평균 신장이 1.70 미터, 표준편차 0.1 미터를 갖는 모집단을 성정한다.
+`rnorm` 함수를 사용해서 100명에 대한 신장을 난수로 추출하고 나서 `heights` 객체에 저장시킨다.
+
+
+~~~{.r}
+heights <- rnorm(100, mean=1.7, sd=0.1)
+summary(heights)
+~~~
+
+
+
+~~~{.output}
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  1.532   1.618   1.700   1.701   1.767   1.966 
+
+~~~
+
+### 2.6. 연습문제 {#intermeidate-06}
+
+모집단 90% 사람의 신장은 $\text{__-}$ 미터보다 작다?
+
+
+~~~{.r}
+qnorm(.9, mean=1.7, sd=0.1)
+~~~
+
+
+
+~~~{.output}
+[1] 1.828155
+
+~~~
+
+### 2.7. 연습문제 {#intermeidate-07}
+
+1.6 미터보다 신장이 큰 사람은 전체의 몇 퍼센티지인가?
+
+
+~~~{.r}
+1-pnorm(1.6, mean=1.7, sd=0.1)
+~~~
+
+
+
+~~~{.output}
+[1] 0.8413447
+
+~~~
+
+### 2.8. 연습문제 {#intermeidate-08}
+
+다음 코드를 실행해서 `MASS` 팩키지를 설치한다.
+모수로 `mu = c(1.70, 60)`, `Sigma = matrix(c(.1,3.1,3.1,100), nrow = 2)`를 갖는 다변량 정규분포 `mvrnorm` 에서 
+1000명의 신장과 몸무게를 난수로 생성시켜보자.
+
+
+~~~{.r}
+if (!'MASS' %in% installed.packages()) install.packages('MASS')
+library(MASS)
+
+set.seed(1)
+population <- mvrnorm(1000, mu=c(1.7,60), Sigma = matrix(c(.1,3.1,3.1,100), nrow = 2))
+~~~
+
+### 2.9. 연습문제 {#intermeidate-09}
+
+얼마나 많은 사람이 신장 1.7 미터, 60 킬로그램보다 많은가?
+
+
+~~~{.r}
+sum(population[,1]>1.70 & population[,2]>60)
+~~~
+
+
+
+~~~{.output}
+[1] 455
+
+~~~
+
+### 2.10. 연습문제 {#intermeidate-10}
+
+모의실험 모집단에서 얼마나 많은 사람이 1.75 미터보다 크고, 체중이 60 킬로그램보다 가벼운가?
+
+
+~~~{.r}
+sum(population[,1]>1.75 & population[,2]<60)
+~~~
+
+
+
+~~~{.output}
+[1] 11
+
+~~~
