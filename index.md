@@ -24,6 +24,7 @@ title: 데이터 과학을 위한 R 알고리즘
     - [생일문제(Birthday Problem)](r-birthday-problem.html) 
     - [몬티홀 문제(Monty Hall Problem)](r-monty-hall-problem.html) 
     - [원주율($\pi$)](r-monte-carlo-pi.html) 
+    - [최초 성공 (기하분포)](r-geometric-distribution.html) 
     - [쿠폰 수집가 문제(Coupon Collector Problem)](r-coupon-collector-problem.html) 
     - [캔디 판매(Selling Candy Problem)](r-selling-candy-problem.html) 
     - [확률 모의실험(R 연습문제 중심)](r-probability-exercise.html) 
