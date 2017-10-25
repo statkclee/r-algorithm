@@ -29,6 +29,7 @@ title: 데이터 과학을 위한 R 알고리즘
     - [캔디 판매(Selling Candy Problem)](r-selling-candy-problem.html) 
     - [확률 모의실험(R 연습문제 중심)](r-probability-exercise.html) 
     - [상트페테르부르크의 역설 (St. Petersburg paradox)](r-petersburg-paradox.html) 
+    - [산타 선물 문제 (교란순열, Derangement)](r-hat-derangement.html) 
 - **문제 해결**    
     - [최단 도시 연결(Minimal Spanning Tree)](r-minimal-spanning-tree.html) 
     - [지도 색칠 문제(Graph Coloring Problem)](r-graph-coloring-problem.html) 
