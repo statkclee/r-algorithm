@@ -23,7 +23,6 @@ title: 데이터 과학을 위한 R 알고리즘
 - **확률**
     - [생일문제(Birthday Problem)](r-birthday-problem.html) 
     - [몬티홀 문제(Monty Hall Problem)](r-monty-hall-problem.html) 
-    - [원주율($\pi$)](r-monte-carlo-pi.html) 
     - [최초 성공 (기하분포)](r-geometric-distribution.html) 
     - [쿠폰 수집가 문제(Coupon Collector Problem)](r-coupon-collector-problem.html) 
     - [캔디 판매(Selling Candy Problem)](r-selling-candy-problem.html) 
@@ -33,7 +32,9 @@ title: 데이터 과학을 위한 R 알고리즘
 - **문제 해결**    
     - [최단 도시 연결(Minimal Spanning Tree)](r-minimal-spanning-tree.html) 
     - [지도 색칠 문제(Graph Coloring Problem)](r-graph-coloring-problem.html) 
-
+- **수학 문제**
+    - [원주율($\pi$)](r-monte-carlo-pi.html) 
+    - [황금비(Golden Ratio)](r-golden-ratio.html)
 
 [^grokking-algorithms]: [Aditya Y. Bhargava(2016, "Grokking Algorithms - An illustrated guide for programmers and other curious people", Manning Publications](https://www.manning.com/books/grokking-algorithms)
 
