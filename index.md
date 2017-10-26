@@ -35,6 +35,10 @@ title: 데이터 과학을 위한 R 알고리즘
 - **수학 문제**
     - [원주율($\pi$)](r-monte-carlo-pi.html) 
     - [황금비(Golden Ratio)](r-golden-ratio.html)
+- **최적화(Optimization)**
+    - [최대우도법(Maximum Likelihood Estimation, MLE)](r-mle-normal.html) 
+
+
 
 [^grokking-algorithms]: [Aditya Y. Bhargava(2016, "Grokking Algorithms - An illustrated guide for programmers and other curious people", Manning Publications](https://www.manning.com/books/grokking-algorithms)
 
