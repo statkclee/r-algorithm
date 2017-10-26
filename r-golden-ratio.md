@@ -74,3 +74,137 @@ points(gr_root, 0, pch = 16, cex = 2, col="blue")
 ~~~
 
 <img src="fig/golden-ratio-plot-1.png" style="display: block; margin: auto;" />
+
+
+## 2. 근 찾기(Root Finding) [^newton-raphson-book] {#root-finding}
+
+[^newton-raphson-book]: [Owen Jones, Robert Maillardet, Andrew Robinson(2014), "Introduction to Scientific Programming and Simulation Using R", CRC Press](https://www.crcpress.com/Introduction-to-Scientific-Programming-and-Simulation-Using-R-Second-Edition/Jones-Maillardet-Robinson/p/book/9781466569997)
+
+근을 찾는 수치해석 알고리즘은 다수 존재한다. 그중 뉴튼-랩슨(Newton–Raphson) 알고리즘을 적용하여 근을 빠르게 구할 수 있다.
+
+$$x_{n+1} = x_n - \frac{f(x_n)}{f^{\prime}(x_n)} $$
+
+즉, 미분이 존재할 경우 초기값을 지정하고, 해당 지점에 미분값을 활용하여 추정값을 구하고 다음 추정값을 동일한 방식으로 
+계산해 나가면 근사적으로 근과 매우 가까운 값을 구할 수 있다. 이를 시각적으로 구현한 애니메이션으로 표현하면 다음과 같다. [^animation-newton-raphson]
+
+[^animation-newton-raphson]: [Demonstration of the Newton-Raphson method for root-finding](https://yihui.name/animation/example/newton-method/)
+
+<video controls loop autoplay><source src="fig/newton-raphson-demo.mp4" /><p>뉴튼-랩슨 근 찾기</p></video>
+
+근을 구하려는 방정식 함수를 지정하고 나서, 해당 함수의 미분값을 구하여 해당 함수로 작성한다.
+
+
+
+~~~{.r}
+## 뉴튼-랩슨 알고리즘
+newton_raphson_fn <- function(ftn, init_val = 2, tolerance = 1e-9, max_iter = 100) {
+    
+    # 초기값 설정
+    x <- init_val
+    fx <- ftn(x)
+    iter <- 0
+
+    # 뉴튼랩슨 알고리즘 실행
+    while ((abs(fx[1]) > tolerance) && (iter < max_iter)) {
+        x <- x - fx[1]/fx[2]
+        fx <- ftn(x)
+        iter <- iter + 1
+        cat("반복횟수:", iter, "추정된 근의 값:", x, "\n")
+    }
+
+    # 뉴트랩슨 알고리즘 반환
+    if (abs(fx[1]) > tolerance) {
+        cat("뉴튼랩슨 알고리즘이 수렴하는데 실패했습니다.\n")
+        break
+    } else {
+        cat("알고리즘이 수렴했습니다.\n")
+        return(x)
+    }
+}
+~~~
+
+### 2.1. 황금비 뉴튼-랩슨 알고리즘 근찾기 {#golden-ratio-newton-raphson}
+
+황금비 함수는 다음과 같이 표현된다.
+
+$$f(\varphi) =\varphi^2 - \varphi  - 1$$
+
+황금비 함수를 미분하면 다음과 같다.
+
+$$f^{\prime}(\varphi) =2 \times \varphi - - 1$$
+
+뉴튼-랩슨 알고리즘으로 근을 구하는데 황금비 함수와 일차 미분한 결과를 반영하여 `gold_ratio_fn`를 작성하여 `newton_raphson_fn` 함수에 넣어 근을 추정한다.
+
+
+~~~{.r}
+gold_ratio_fn <- function(x) {
+    fx <- x^2 - x -1
+    dfx <- 2*x -1
+    return(c(fx, dfx))
+}
+
+newton_raphson_fn(gold_ratio_fn, init_val=3, max_iter = 1000)
+~~~
+
+
+
+~~~{.output}
+반복횟수: 1 추정된 근의 값: 2 
+반복횟수: 2 추정된 근의 값: 1.666667 
+반복횟수: 3 추정된 근의 값: 1.619048 
+반복횟수: 4 추정된 근의 값: 1.618034 
+반복횟수: 5 추정된 근의 값: 1.618034 
+알고리즘이 수렴했습니다.
+
+~~~
+
+
+
+~~~{.output}
+[1] 1.618034
+
+~~~
+
+### 2.2. 애니메이션 뉴튼-랩슨 알고리즘 근찾기 {#animation-newton-raphson}
+
+애니메이션에 나온 함수의 근을 찾는 방법도 동일한다.
+
+$$f(x) = x^2 - 4$$
+
+상기 함수를 미분하면 다음과 같다.
+
+$$f^{\prime}(x) = 2x$$
+
+뉴튼-랩슨 알고리즘으로 근을 구하는데 애니메이션 2차 함수($x^2 -4$)와 일차 미분($2x$)한 결과를 반영하여 `animation_fn`를 작성하여 `newton_raphson_fn` 함수에 넣어 근을 추정한다.
+
+
+
+~~~{.r}
+animation_fn <- function(x) {
+    fx <- x^2 - 4
+    dfx <- 2*x
+    return(c(fx, dfx))
+}
+
+newton_raphson_fn(animation_fn, init_val=10, max_iter = 1000)
+~~~
+
+
+
+~~~{.output}
+반복횟수: 1 추정된 근의 값: 5.2 
+반복횟수: 2 추정된 근의 값: 2.984615 
+반복횟수: 3 추정된 근의 값: 2.162411 
+반복횟수: 4 추정된 근의 값: 2.006099 
+반복횟수: 5 추정된 근의 값: 2.000009 
+반복횟수: 6 추정된 근의 값: 2 
+알고리즘이 수렴했습니다.
+
+~~~
+
+
+
+~~~{.output}
+[1] 2
+
+~~~
