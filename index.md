@@ -21,7 +21,7 @@ title: 데이터 과학을 위한 R 알고리즘
     - [분할정복(Divide&Conquer) - 퀵정렬(Quick Sort)](r-quick-sort.html)
     - [유클리드 호제법(Euclidean Algorithm)-최대공약수](r-euclid-algorithm.html)
     - [요세푸스 문제(Josephus Problem)](r-josephus-problem.html)
-- **확률**
+- **[확률의 역사](r-history-of-probability.html)**
     - [생일문제(Birthday Problem)](r-birthday-problem.html) 
     - [몬티홀 문제(Monty Hall Problem)](r-monty-hall-problem.html) 
     - [최초 성공 (기하분포)](r-geometric-distribution.html) 
