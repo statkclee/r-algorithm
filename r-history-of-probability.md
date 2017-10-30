@@ -22,7 +22,9 @@ history_df <- tribble(
     "갈릴레오 - 주사위에 대한 발견", "1620-07-01", "Galileo - a Discovery Concerning Dice",
     "슈발리에 드 메레 - 주사위 문제", "1654-07-01", "Chevalier de Mere - The Problem of Dice",
     "슈발리에 드 메레 - 지분분할 문제", "1654-07-01", "Chevalier de Mere - The Problem of Points",
-    "호이겐스 - 도박꾼의 파산", "1657-07-01", "Huygens and the Gambler’s Ruin"
+    "호이겐스 - 도박꾼의 파산", "1657-07-01", "Huygens and the Gambler’s Ruin",
+    "피에르 레몽 드 몽모르 조우", "1708-07-01", "Rencontres with Montmort",
+    "야코프 베르누이 - 황금정리", "1713-07-01", "Jacob Bernoulli and his Golden Theorem"
 )
 
 history_df <- history_df %>% 
@@ -86,53 +88,53 @@ for(i in 1:50) {
 
 
 ~~~{.output}
-주사위던지기 횟수(n): 1 이론값: 0.16667 확률값: 0.1666 
-주사위던지기 횟수(n): 2 이론값: 0.30556 확률값: 0.3052 
-주사위던지기 횟수(n): 3 이론값: 0.4213 확률값: 0.4202 
-주사위던지기 횟수(n): 4 이론값: 0.51775 확률값: 0.5258 
-주사위던지기 횟수(n): 5 이론값: 0.59812 확률값: 0.5961 
-주사위던지기 횟수(n): 6 이론값: 0.6651 확률값: 0.6689 
-주사위던지기 횟수(n): 7 이론값: 0.72092 확률값: 0.7195 
-주사위던지기 횟수(n): 8 이론값: 0.76743 확률값: 0.7644 
-주사위던지기 횟수(n): 9 이론값: 0.80619 확률값: 0.8076 
-주사위던지기 횟수(n): 10 이론값: 0.83849 확률값: 0.8375 
-주사위던지기 횟수(n): 11 이론값: 0.86541 확률값: 0.8668 
-주사위던지기 횟수(n): 12 이론값: 0.88784 확률값: 0.888 
-주사위던지기 횟수(n): 13 이론값: 0.90654 확률값: 0.9074 
-주사위던지기 횟수(n): 14 이론값: 0.92211 확률값: 0.9231 
-주사위던지기 횟수(n): 15 이론값: 0.93509 확률값: 0.9366 
-주사위던지기 횟수(n): 16 이론값: 0.94591 확률값: 0.9476 
-주사위던지기 횟수(n): 17 이론값: 0.95493 확률값: 0.9515 
-주사위던지기 횟수(n): 18 이론값: 0.96244 확률값: 0.9615 
-주사위던지기 횟수(n): 19 이론값: 0.9687 확률값: 0.9694 
-주사위던지기 횟수(n): 20 이론값: 0.97392 확률값: 0.975 
-주사위던지기 횟수(n): 21 이론값: 0.97826 확률값: 0.9826 
+주사위던지기 횟수(n): 1 이론값: 0.16667 확률값: 0.1692 
+주사위던지기 횟수(n): 2 이론값: 0.30556 확률값: 0.3105 
+주사위던지기 횟수(n): 3 이론값: 0.4213 확률값: 0.4135 
+주사위던지기 횟수(n): 4 이론값: 0.51775 확률값: 0.5093 
+주사위던지기 횟수(n): 5 이론값: 0.59812 확률값: 0.5965 
+주사위던지기 횟수(n): 6 이론값: 0.6651 확률값: 0.6707 
+주사위던지기 횟수(n): 7 이론값: 0.72092 확률값: 0.7202 
+주사위던지기 횟수(n): 8 이론값: 0.76743 확률값: 0.768 
+주사위던지기 횟수(n): 9 이론값: 0.80619 확률값: 0.8058 
+주사위던지기 횟수(n): 10 이론값: 0.83849 확률값: 0.8424 
+주사위던지기 횟수(n): 11 이론값: 0.86541 확률값: 0.863 
+주사위던지기 횟수(n): 12 이론값: 0.88784 확률값: 0.8895 
+주사위던지기 횟수(n): 13 이론값: 0.90654 확률값: 0.9055 
+주사위던지기 횟수(n): 14 이론값: 0.92211 확률값: 0.9251 
+주사위던지기 횟수(n): 15 이론값: 0.93509 확률값: 0.9347 
+주사위던지기 횟수(n): 16 이론값: 0.94591 확률값: 0.9455 
+주사위던지기 횟수(n): 17 이론값: 0.95493 확률값: 0.9548 
+주사위던지기 횟수(n): 18 이론값: 0.96244 확률값: 0.9623 
+주사위던지기 횟수(n): 19 이론값: 0.9687 확률값: 0.9676 
+주사위던지기 횟수(n): 20 이론값: 0.97392 확률값: 0.973 
+주사위던지기 횟수(n): 21 이론값: 0.97826 확률값: 0.9785 
 주사위던지기 횟수(n): 22 이론값: 0.98189 확률값: 0.9824 
-주사위던지기 횟수(n): 23 이론값: 0.98491 확률값: 0.9862 
-주사위던지기 횟수(n): 24 이론값: 0.98742 확률값: 0.9868 
-주사위던지기 횟수(n): 25 이론값: 0.98952 확률값: 0.99 
-주사위던지기 횟수(n): 26 이론값: 0.99126 확률값: 0.9911 
-주사위던지기 횟수(n): 27 이론값: 0.99272 확률값: 0.9932 
-주사위던지기 횟수(n): 28 이론값: 0.99393 확률값: 0.9937 
-주사위던지기 횟수(n): 29 이론값: 0.99494 확률값: 0.9949 
-주사위던지기 횟수(n): 30 이론값: 0.99579 확률값: 0.9963 
-주사위던지기 횟수(n): 31 이론값: 0.99649 확률값: 0.9961 
-주사위던지기 횟수(n): 32 이론값: 0.99707 확률값: 0.9968 
-주사위던지기 횟수(n): 33 이론값: 0.99756 확률값: 0.9981 
-주사위던지기 횟수(n): 34 이론값: 0.99797 확률값: 0.9981 
-주사위던지기 횟수(n): 35 이론값: 0.99831 확률값: 0.9986 
-주사위던지기 횟수(n): 36 이론값: 0.99859 확률값: 0.9987 
-주사위던지기 횟수(n): 37 이론값: 0.99882 확률값: 0.9986 
-주사위던지기 횟수(n): 38 이론값: 0.99902 확률값: 0.9991 
-주사위던지기 횟수(n): 39 이론값: 0.99918 확률값: 0.9994 
-주사위던지기 횟수(n): 40 이론값: 0.99932 확률값: 0.9992 
+주사위던지기 횟수(n): 23 이론값: 0.98491 확률값: 0.9842 
+주사위던지기 횟수(n): 24 이론값: 0.98742 확률값: 0.9865 
+주사위던지기 횟수(n): 25 이론값: 0.98952 확률값: 0.9901 
+주사위던지기 횟수(n): 26 이론값: 0.99126 확률값: 0.9928 
+주사위던지기 횟수(n): 27 이론값: 0.99272 확률값: 0.9933 
+주사위던지기 횟수(n): 28 이론값: 0.99393 확률값: 0.9936 
+주사위던지기 횟수(n): 29 이론값: 0.99494 확률값: 0.9946 
+주사위던지기 횟수(n): 30 이론값: 0.99579 확률값: 0.9959 
+주사위던지기 횟수(n): 31 이론값: 0.99649 확률값: 0.996 
+주사위던지기 횟수(n): 32 이론값: 0.99707 확률값: 0.9969 
+주사위던지기 횟수(n): 33 이론값: 0.99756 확률값: 0.9966 
+주사위던지기 횟수(n): 34 이론값: 0.99797 확률값: 0.998 
+주사위던지기 횟수(n): 35 이론값: 0.99831 확률값: 0.9989 
+주사위던지기 횟수(n): 36 이론값: 0.99859 확률값: 0.9988 
+주사위던지기 횟수(n): 37 이론값: 0.99882 확률값: 0.9982 
+주사위던지기 횟수(n): 38 이론값: 0.99902 확률값: 0.9993 
+주사위던지기 횟수(n): 39 이론값: 0.99918 확률값: 0.9996 
+주사위던지기 횟수(n): 40 이론값: 0.99932 확률값: 0.9994 
 주사위던지기 횟수(n): 41 이론값: 0.99943 확률값: 0.9996 
-주사위던지기 횟수(n): 42 이론값: 0.99953 확률값: 0.9995 
-주사위던지기 횟수(n): 43 이론값: 0.99961 확률값: 0.9995 
-주사위던지기 횟수(n): 44 이론값: 0.99967 확률값: 0.9997 
-주사위던지기 횟수(n): 45 이론값: 0.99973 확률값: 0.9999 
-주사위던지기 횟수(n): 46 이론값: 0.99977 확률값: 0.9995 
-주사위던지기 횟수(n): 47 이론값: 0.99981 확률값: 0.9996 
+주사위던지기 횟수(n): 42 이론값: 0.99953 확률값: 0.9997 
+주사위던지기 횟수(n): 43 이론값: 0.99961 확률값: 0.9998 
+주사위던지기 횟수(n): 44 이론값: 0.99967 확률값: 1 
+주사위던지기 횟수(n): 45 이론값: 0.99973 확률값: 0.9995 
+주사위던지기 횟수(n): 46 이론값: 0.99977 확률값: 1 
+주사위던지기 횟수(n): 47 이론값: 0.99981 확률값: 0.9999 
 주사위던지기 횟수(n): 48 이론값: 0.99984 확률값: 0.9999 
 주사위던지기 횟수(n): 49 이론값: 0.99987 확률값: 0.9998 
 주사위던지기 횟수(n): 50 이론값: 0.99989 확률값: 0.9999 
@@ -175,8 +177,8 @@ three_dice$probabilities %>%
       DT::formatPercentage("Probability", digits=1)
 ~~~
 
-<!--html_preserve--><div id="htmlwidget-1bf12bc7c2c26cddadc0" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1bf12bc7c2c26cddadc0">{"x":{"filter":"none","data":[[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],[0.00462962962962963,0.0138888888888889,0.0277777777777778,0.0462962962962963,0.0694444444444444,0.0972222222222222,0.115740740740741,0.125,0.125,0.115740740740741,0.0972222222222222,0.0694444444444444,0.0462962962962963,0.0277777777777778,0.0138888888888889,0.00462962962962963],[1,3,6,10,15,21,25,27,27,25,21,15,10,6,3,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Sum<\/th>\n      <th>Probability<\/th>\n      <th>Ways to Roll<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nDTWidget.formatPercentage(this, row, data, 1, 1);\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-9baa3e11edf16f02969a" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9baa3e11edf16f02969a">{"x":{"filter":"none","data":[[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],[0.00462962962962963,0.0138888888888889,0.0277777777777778,0.0462962962962963,0.0694444444444444,0.0972222222222222,0.115740740740741,0.125,0.125,0.115740740740741,0.0972222222222222,0.0694444444444444,0.0462962962962963,0.0277777777777778,0.0138888888888889,0.00462962962962963],[1,3,6,10,15,21,25,27,27,25,21,15,10,6,3,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Sum<\/th>\n      <th>Probability<\/th>\n      <th>Ways to Roll<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nDTWidget.formatPercentage(this, row, data, 1, 1);\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script><!--/html_preserve-->
 
 ~~~{.r}
 ## 3. 모의실험결과 ------------
@@ -191,8 +193,8 @@ dice_sim$sums_freq %>% as_tibble() %>%
         DT::formatPercentage(c("확률", "누적확률"), digits=1)
 ~~~
 
-<!--html_preserve--><div id="htmlwidget-e9bb83e631c1bc8ea1f4" style="width:100%;height:auto;" class="datatables html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e9bb83e631c1bc8ea1f4">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],[435,1338,2860,4604,6994,9856,11506,12397,12544,11702,9550,7011,4669,2717,1322,495],[0.00435,0.01338,0.0286,0.04604,0.06994,0.09856,0.11506,0.12397,0.12544,0.11702,0.0955,0.07011,0.04669,0.02717,0.01322,0.00495],[0.00435,0.01773,0.04633,0.09237,0.16231,0.26087,0.37593,0.4999,0.62534,0.74236,0.83786,0.90797,0.95466,0.98183,0.99505,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>주사위합<\/th>\n      <th>N<\/th>\n      <th>확률<\/th>\n      <th>누적확률<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nDTWidget.formatPercentage(this, row, data, 3, 1);\nDTWidget.formatPercentage(this, row, data, 4, 1);\nDTWidget.formatCurrency(this, row, data, 2, '', 0, 3, ',', '.', true);\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-7e33719b7e99a6cfb2c3" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7e33719b7e99a6cfb2c3">{"x":{"filter":"none","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],[3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],[444,1349,2793,4795,6954,9757,11518,12653,12475,11734,9659,6889,4394,2724,1419,443],[0.00444,0.01349,0.02793,0.04795,0.06954,0.09757,0.11518,0.12653,0.12475,0.11734,0.09659,0.06889,0.04394,0.02724,0.01419,0.00443],[0.00444,0.01793,0.04586,0.09381,0.16335,0.26092,0.3761,0.50263,0.62738,0.74472,0.84131,0.9102,0.95414,0.98138,0.99557,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>주사위합<\/th>\n      <th>N<\/th>\n      <th>확률<\/th>\n      <th>누적확률<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data) {\nDTWidget.formatPercentage(this, row, data, 3, 1);\nDTWidget.formatPercentage(this, row, data, 4, 1);\nDTWidget.formatCurrency(this, row, data, 2, '', 0, 3, ',', '.', true);\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script><!--/html_preserve-->
 
 
 ### 2.3. 슈발리에 드 메레 - 주사위 문제 {#mere-1654}
@@ -250,7 +252,7 @@ mean(replicate(100000, draw_dice(nthrow=4)))
 
 
 ~~~{.output}
-[1] 0.51825
+[1] 0.51775
 
 ~~~
 
@@ -271,7 +273,7 @@ mean(replicate(100000, draw_two_dice(draws = 24, dice=2)))
 
 
 ~~~{.output}
-[1] 0.49174
+[1] 0.49102
 
 ~~~
 
@@ -346,7 +348,7 @@ mean(is_B_win)
 
 
 ~~~{.output}
-[1] 0.12434
+[1] 0.12508
 
 ~~~
 
@@ -428,7 +430,7 @@ if (probval < prob){
 
 
 ~~~{.output}
-[1] 20 19
+[1] 20 21
 
 ~~~
 
@@ -581,7 +583,7 @@ mean(replicate(10000, draw_dice(nthrow=6, min_six = 1)))
 
 
 ~~~{.output}
-[1] 0.6672
+[1] 0.6669
 
 ~~~
 
@@ -594,7 +596,7 @@ mean(replicate(10000, draw_dice(nthrow=12, min_six = 2)))
 
 
 ~~~{.output}
-[1] 0.62
+[1] 0.6281
 
 ~~~
 
@@ -607,6 +609,179 @@ mean(replicate(10000, draw_dice(nthrow=18, min_six = 3)))
 
 
 ~~~{.output}
-[1] 0.5976
+[1] 0.603
+
+~~~
+
+### 2.7. 피에르 레몽 드 몽모르 조우 [^derangement-santa]  {#montmort-1708}
+
+[^derangement-santa]: [산타 선물 문제 (교란순열, Derangement)](https://statkclee.github.io/r-algorithm/r-hat-derangement.html)
+
+
+**문제:** $1,2,3, \cdots, n$ 숫자가 세겨진 공을 $n$개 담겨있는 항아리가 있다.
+항아리 안에서 공은 잘 섞어서 한번에 하나씩 뽑아낸다.
+적어도 공하나 뽑히는 순서가 공에 표식된 순서대로 뽑힐 확률은 얼마인가? 
+(예를 들어, 숫자 2가 찍힌 공이 두번째로 뽑힌다.)
+
+"Suppose you have a jar containing n balls numbered 1, 2, 3, . . ., n,
+respectively. They are well mixed and then drawn one at a time. What is the
+probability that at least one ball is drawn in the order indicated by its label (e.g., the
+ball labeled 2 could be the second ball drawn from the jar)?"
+
+$n$개 공을 순서있게 뽑는 경우의 수는 $n!$이 존재한다. 따라서,
+
+$$L_n = |A_1 \cup A_2 \cup \cdots \cup A_n | = \sum_i |A_i| - \sum_{i<j} |A_i \cup A_j| + \sum_{i<j<k} |A_i \cup A_j \cup A_k| - \cdots + (-1)^{n+1} |A_1 \cup A_2 \cup \cdots \cup A_n |$$
+
+상기 수식은 포함-배제 원칙을 적용해서 도출되었다. 
+그리고, $|A_i \cup A_j| = (n-2)!$이고 $n \choose 2$ 경우의 수가 있고, 마찬가지 방식으로 나머지 항들도 정리하면 
+다음과 같다.
+
+$${n \choose 1}(n-1)!+{n \choose 2}(n-2)!-\cdots \pm {n \choose n}0! =n!+\sum_{i=1}^n (-1)^i{n \choose i} (n-i)! = \frac{n!}{1!} - \frac{n!}{2!} + \frac{n!}{3!} - \frac{n!}{4!} + (-1)^{n+1} \frac{n!}{n!}$$
+
+따라서, 적어도 공하나가 공에 적힌 숫자에 맞춰 추출되는 확률은 전체 $n!$로 나눠주면,
+
+$$\frac{\frac{n!}{1!} - \frac{n!}{2!} + \frac{n!}{3!} - \frac{n!}{4!} + (-1)^{n+1} \frac{n!}{n!}}{n!} =  \frac{1}{1!} - \frac{1}{2!} + \frac{1}{3!} - \frac{1}{4!} + (-1)^{n+1} \frac{1}{n!}$$
+
+마지막으로, $e^x = 1 + x + \frac{x^2}{2!} + \frac{x^3}{3!} + \frac{x^4}{4!} + \cdots$를 활용하여 정리하면 다음과 같다.
+
+$$lim_{n \to \infty} p_n = 1 - \frac{1}{e} \approx 0.6321206$$
+
+공이 10개 들어있는 경우를 가정하고, 이를 바탕으로 모의실험을 준비한다.
+
+1. `jar <- 1:ball`: 항아리에 정성스럽게 넣어 준비한다.
+1. `sample(jar, size=ball, replace = FALSE)`: 한번 전체 공을 뽑는 경우는, 무작위로 공을 뽑는데 비복원으로 공을 추출한다.
+1. `ifelse( sum(jar == draw) >= 1, TRUE, FALSE)`: 만약 공의 번호와 뽑는 순서가 같다면 성공으로 가정하는데, 1개 이상인 경우도 모두 성공으로 처리한다.
+1. `mean(replicate(10000, montmort(10)))`: 공을 10개 항아리에 담아 10,000번 반복해서 성공, 실패에 대한 평균을 계산한다.
+1. `mean(replicate(10000, montmort(100)))`: 공을 100개 항아리에 담아 10,000번 반복해서 성공, 실패에 대한 평균을 계산한다.
+1. `cat("이론값:", theory_val, "모의실험:", sim_val, "차이:", abs(theory_val - sim_val))`: 이론값과 모의실험 값을 차이를 비교한다.
+
+
+~~~{.r}
+montmort <- function(ball=10) {
+    # 참가자 설정
+    ball <- 10
+    jar <- 1:ball
+    
+    # 한번 전체 공을 뽑는 시도
+    draw <- sample(jar, size=ball, replace = FALSE)
+    
+    # 뽑기 결과: 합이 1 이상 이면 성공
+    result <- ifelse( sum(jar == draw) >= 1, TRUE, FALSE)
+    return(result)
+}
+
+## 1.1. 공이 10개 들어있을 경우
+theory_val <- 1 - 1/exp(1)
+sim_val <- mean(replicate(10000, montmort(10)))
+
+cat("이론값:", theory_val, "모의실험:", sim_val, "차이:", abs(theory_val - sim_val))
+~~~
+
+
+
+~~~{.output}
+이론값: 0.6321206 모의실험: 0.6291 차이: 0.003020559
+
+~~~
+
+
+
+~~~{.r}
+## 1.2. 공이 100개 들어있을 경우
+theory_val <- 1 - 1/exp(1)
+sim_val <- mean(replicate(10000, montmort(100)))
+
+cat("이론값:", theory_val, "모의실험:", sim_val, "차이:", abs(theory_val - sim_val))
+~~~
+
+
+
+~~~{.output}
+이론값: 0.6321206 모의실험: 0.6292 차이: 0.002920559
+
+~~~
+
+### 2.8. 야코프 베르누이 - 황금정리 [^wiki-law-of-large-number] {#bernoulli-1713}
+
+[^wiki-law-of-large-number]: [위키사전 - 대수의 법칙](https://ko.wikipedia.org/wiki/%ED%81%B0_%EC%88%98%EC%9D%98_%EB%B2%95%EC%B9%99)
+
+**문제:** 공정한 동전을 $2m$번 던졌을 때 동전 앞면과 뒷면이 같을 확률은 큰 $m$에 대해서 근사적으로 $\frac{1}{sqrt{\pi m}}$임을 보여라.
+
+"Show that the probability of an equal number of heads and tails when a
+fair coin is tossed 2m times is approximately $\frac{1}{sqrt{\pi m}}$
+for large m.?"
+
+사건 $X$를 $2m$ 독립적으로 동전을 던졌을 때 앞면이 나오는 사건으로 정의하자. 
+그러면, $X \thicksim B(2m, \frac{1}{2})$.
+
+$$Pr(X=x) = {2m \choose x} \bigg(\frac{1}{2} \bigg)^x \bigg(\frac{1}{2} \bigg)^{2m-x} = \frac{1}{2^{2m}}{2m \choose x}$$
+
+이제 동전의 앞면과 동전 뒷면이 나올 확률이 같은 확률은 다음과 같다.
+
+$$Pr(X=m) = \frac{1}{2^{2m}}{2m \choose m} = \frac{1}{2^{2m}} \frac{(2m)!}{(m!)^2}$$
+
+스터링 근사, $n!\sim\sqrt{2\pi n}(n/e)^n$을 사용해서 정리하면 증명을 할 수 있다.
+
+$$Pr(X=m) \approx \frac{1}{2^{2m}} \frac{\sqrt{2\pi 2m}(n/e)^{2m}}{(\sqrt{2\pi m}(n/e)^m)^2} = \frac{1}{\sqrt{\pi m}}$$
+
+`dbinom` 함수로 계산된 값을 수학이론값으로 놓고, 스털링근사를 통한 값을 상호 비교해보자.
+
+
+~~~{.r}
+# 1. 이론값 ---------------
+
+golden <- function(m) {
+    coin_prob <- dbinom(m, size= 2*m, prob=0.5)
+    return(coin_prob)
+}
+
+idx <- numeric()
+math_v <- numeric()
+approx_val <- numeric()
+
+for(i in c(10,100,1000,10000,100000)) {
+        idx <- c(idx, i)
+        math_v <- c(math_v, golden(i))
+        approx_val <- c(approx_val, 1/sqrt(pi * i))
+}
+
+golden_df <- data.frame(idx, math_v, approx_val) %>% 
+    mutate(차이 = abs(math_v - approx_val),
+          차이율 = scales::percent(차이/math_v))
+
+DT::datatable(golden_df)
+~~~
+
+<!--html_preserve--><div id="htmlwidget-04af73c4528c3b36b306" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-04af73c4528c3b36b306">{"x":{"filter":"none","data":[["1","2","3","4","5"],[10,100,1000,10000,100000],[0.176197052001953,0.0563484790092564,0.0178390111458543,0.00564182531222041,0.00178412188599902],[0.178412411615277,0.0564189583547756,0.0178412411615277,0.00564189583547756,0.00178412411615277],[0.00221535961332398,7.04793455192018e-005,2.23001567339204e-006,7.05232571489994e-008,2.2301537528583e-009],["1.26%","0.13%","0.01%","0.00%","0.00%"]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>idx<\/th>\n      <th>math_v<\/th>\n      <th>approx_val<\/th>\n      <th>차이<\/th>\n      <th>차이율<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4]},{"orderable":false,"targets":0}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+
+1. `rbinom(2*m, size= 1, prob=0.5)`: $2m$ 동전던지기 실험을 모사한다.
+1. `sum(rbinom(2*m, size= 1, prob=0.5)) == m`: 앞변과 뒷면의 수가 동일한지 검사한다.
+1. `replicate(10000, golden_sim(i))`: 1000회 반복한다.
+
+
+~~~{.r}
+# 2. 모의실험 ---------------
+
+golden_sim <- function(m) {
+    
+    is_head_equal_tail <- ifelse(sum(rbinom(2*m, size= 1, prob=0.5)) == m, TRUE, FALSE)
+                                 
+    return(is_head_equal_tail)
+}
+
+for(i in c(10,100,1000,10000,100000)) {
+    cat("주사위던지기 횟수(n):", i, "근사값:", 1/sqrt(pi * i), "모의실험값:", mean(replicate(1000, golden_sim(i))), "\n")
+}
+~~~
+
+
+
+~~~{.output}
+주사위던지기 횟수(n): 10 근사값: 0.1784124 모의실험값: 0.189 
+주사위던지기 횟수(n): 100 근사값: 0.05641896 모의실험값: 0.04 
+주사위던지기 횟수(n): 1000 근사값: 0.01784124 모의실험값: 0.017 
+주사위던지기 횟수(n): 10000 근사값: 0.005641896 모의실험값: 0.005 
+주사위던지기 횟수(n): 100000 근사값: 0.001784124 모의실험값: 0.002 
 
 ~~~
