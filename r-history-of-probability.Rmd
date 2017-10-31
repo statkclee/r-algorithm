@@ -53,7 +53,10 @@ history_df <- tribble(
     "슈발리에 드 메레 - 지분분할 문제", "1654-07-01", "Chevalier de Mere - The Problem of Points",
     "호이겐스 - 도박꾼의 파산", "1657-07-01", "Huygens and the Gambler’s Ruin",
     "피에르 레몽 드 몽모르 조우", "1708-07-01", "Rencontres with Montmort",
-    "야코프 베르누이 - 황금정리", "1713-07-01", "Jacob Bernoulli and his Golden Theorem"
+    "야코프 베르누이 - 황금정리", "1713-07-01", "Jacob Bernoulli and his Golden Theorem",
+    "다니엘 베르누이 - 세인트 피터스버그 문제", "1738-07-01", "Daniel Bernoulli and the St. Petersburg Problem",
+    "달랑베르 - 동전던지기", "1754-07-01", "d’Alembert and the Croix ou Pile Article",
+    "달랑베르 - 도박사의 오류", "1761-07-01", "d’Alembert and the Gambler’s Fallacy"
 )
 
 history_df <- history_df %>% 
@@ -614,3 +617,119 @@ for(i in c(10,100,1000,10000,100000)) {
     cat("주사위던지기 횟수(n):", i, "근사값:", 1/sqrt(pi * i), "모의실험값:", mean(replicate(1000, golden_sim(i))), "\n")
 }
 ```
+
+
+### 2.11. 다니엘 베르누이 - 세인트 피터스버그 문제 [^st-petersburg-problem] {#bernoulli-1738}
+
+[^st-petersburg-problem]: [상트페테르부르크의 역설 (St. Petersburg paradox)](https://statkclee.github.io/r-algorithm/r-petersburg-paradox.html)
+
+**문제:** 카지노에서 공정한 동전 던지기 게임을 한 선수가 하고 있다.
+카지노가 약속한 경기 규칙은 첫번째 동전 던지기에서 앞면이 나오면 1달러, 
+첫번째 동전 앞면이 두번째 던지기에서 나오면 2 달러, 일반화해서 앞면이 $n$번째 동전던지기에서 
+나오면 $2^{n-1}$ 달러를 주기로 했다. 공정한 게임 되려면 게임 참가자는 **이론적으로** 카지노에 
+얼마의 돈을 초기 예치금으로 두어야 할까? (즉, 카지노 혹은 게임 참가자의 기대 수익은 0)
+
+"A player plays a coin-tossing game with a fair coin in a casino. The casino
+agrees to pay the player 1 dollar if heads appears on the initial throw, 2 dollars if head
+first appears on the second throw, and in general $2^{n-1}$ dollars if heads first appears on
+the nth throw. How much should the player theoretically give the casino as an initial
+down-payment if the game is to be fair (i.e., the expected profit of the casino or player
+is zero)?"
+
+
+$n$번 동전을 던져 뒷면이 $n-1$회 나오고, $n$번째 동전 앞면이 나와야 경기 참가자가 승리하게 된다.
+이에 대한 확률을 계산하면 $\bigg( \frac{1}{2} \bigg)^{n-1} \bigg( \frac{1}{2} \bigg) = \bigg( \frac{1}{2} \bigg)^n$이 되고,
+카지노가 지급하는 돈은 $2^{n-1}$달러가 된다. 따라서, 카지노가 경기참가자에 지급하는 돈은 다음과 같다.
+
+$$\sum_{n=1}^{\infty} \frac{1}{2^n}\times 2^{n-1} = \sum_{n=1}^{\infty} \frac{1}{2}=\infty$$
+
+따라서, 경기참가자가 초기 참가비로 카지노에 얼마를 담보로 걸고 경기를 하더라도 항상 돈을 벌게 된다.
+이론적으로, 경기참가자가 무한대의 돈을 걸게 되면, 공정한 경기가 된다.
+
+#### 2.11.1. R코드 모의실험
+
+동전이 앞면이 나올 확률을 계산하기 위해서 앞면이 나오는 경우 승리하는 시나리로을 가정하고 모의시험 코드를 작성한다. `0` 이면 뒷면 `1`이면 앞면으로 동전던지기를 중단한다. 결국 동전 던지기 횟수가 증가하면 할수록 확률이 1에 수렴되어 가는 것이 확인된다.
+
+``` {r bernoulli-st-petersburg-1738}
+# 1. 모의실험 ---------------
+## 1.1. 앞면이 나오는 순서
+toss_head <- function() {
+    rec_toss <- numeric() # 동전 앞면
+    while(TRUE) {
+        coin_toss <- rbinom(1, size=1, prob=0.5)
+        if( coin_toss == 1) {
+            rec_toss <- c(rec_toss, coin_toss)
+            break # 동전 앞면이 나온 경우
+        } else {
+            rec_toss <- c(rec_toss, coin_toss)
+        }
+    }
+    return(rec_toss)
+}
+
+for(i in 1:10) print(toss_head())
+
+toss_lst <- replicate(10000, toss_head())
+
+toss_df <- map(toss_lst, length) %>% unlist %>% table %>% as.data.frame
+
+names(toss_df) <- c("앞면출현순서", "모의실험횟수")
+
+toss_df %>% mutate(빈도확률 = scales::percent(모의실험횟수/sum(모의실험횟수)),
+                   누적확률 = scales::percent(cumsum(모의실험횟수/sum(모의실험횟수))))
+```
+
+### 2.12. 달랑베르 - 동전던지기 {#dalembert-1754}
+
+**문제:** 공정한 동전 두개를 순서대로 던졌을 경우, 앞면이 적어도 한번 나올 확률은 얼마인가?
+
+"In two tosses of a fair coin, what is the probability that heads will appear
+at least once?"
+
+$\text{앞}$를 동전의 앞면, $\text{뒤}$를 동전의 뒷면이라고 정의하고 나서, 동전을 던졌을 때 표본공간은 다음과 같이 정의된다. $\Omega = \{ \text{앞앞}, \text{앞뒤}, \text{뒤앞}, \text{뒤뒤} \}$
+그리고, 두번 동전을 던지는 사건이 일어날 확률은 동일하기 때문에 전통적인 확률 정의를 적용해서 확률을 계산하면 정답이 도출된다.
+
+$$Pr\{ \text{적어도 앞면이 하나} \} = \frac{\text{동전 던져 앞면이 나온 횟수}}{\text{전체 동전 던진 경우의 수}} =\frac{3}{4}$$
+
+### 2.13. 달랑베르 - 도박사의 오류 {#dalembert-1761}
+
+**문제:** 공정한 동전 던졌을 때, 연속해서 앞면이 세번 나왔다고 가정하면, 
+다음번 동전던지기에서 뒷면이 나올 확률은 얼마인가?
+
+"When a fair coin is tossed, given that heads have occurred three times in a
+row, what is the probability that the next toss is a tail?"
+
+동전이 공정하기 때문에, 동전을 던졌을 때 앞면 (혹은 뒷면)이 나올 확률은 $\frac{1}{2}$가 된다.
+독립을 가정하면, 앞선 동전던지기 결과에 관계없이 확률은 여전히 $\frac{1}{2}$이 된다.
+
+| 대출결정의 오류 | 의사의 오류   |
+|---------------------------------------------|---------------------------------------------|
+|<iframe width="300" height="180" src="https://www.youtube.com/embed/4eVluL-idkM" frameborder="0" allowfullscreen></iframe> | <iframe width="300" height="180" src="https://www.youtube.com/embed/SEedAhz9Ok0" frameborder="0" allowfullscreen></iframe> |
+
+
+#### 2.12.1. R코드 모의실험
+
+`rle` 함수를 사용해서 연속해서 앞면 혹은 뒷면이 나온 횟수를 셀수 있다.
+이를 함수로 만들어서 동전 던지기 1번부터 1,000회 던졌을 때 연속해서 나온 앞면 혹은 뒷면 횟수를 기록해서 
+시각화 해보자.
+
+``` {r coin-toss-run-length}
+(toss_outcome <- rbinom(10, size=1, prob=0.5))
+rle(toss_outcome)$length
+
+toss_coin <- function(trial=10) {
+    toss_outcome <- rbinom(trial, size=1, prob=0.5)
+    max_run <- max(rle(toss_outcome)$length)
+    return(max_run)
+}
+
+max_run_v <- numeric(1000)
+
+for(i in 1:1000) {
+    max_run_v[i] <- mean(replicate(10, toss_coin(i)))
+}
+
+plot(1:1000, max_run_v)
+```
+
+
