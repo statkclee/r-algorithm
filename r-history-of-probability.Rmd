@@ -56,7 +56,9 @@ history_df <- tribble(
     "야코프 베르누이 - 황금정리", "1713-07-01", "Jacob Bernoulli and his Golden Theorem",
     "다니엘 베르누이 - 세인트 피터스버그 문제", "1738-07-01", "Daniel Bernoulli and the St. Petersburg Problem",
     "달랑베르 - 동전던지기", "1754-07-01", "d’Alembert and the Croix ou Pile Article",
-    "달랑베르 - 도박사의 오류", "1761-07-01", "d’Alembert and the Gambler’s Fallacy"
+    "달랑베르 - 도박사의 오류", "1761-07-01", "d’Alembert and the Gambler’s Fallacy",
+    "뷔퐁의 바늘 문제", "1777-07-01", "The Buffon Needle Problem",
+    "버트랜드 투표 문제", "1887-07-01", "Bertrand’s Ballot Problem"
 )
 
 history_df <- history_df %>% 
@@ -731,5 +733,30 @@ for(i in 1:1000) {
 
 plot(1:1000, max_run_v)
 ```
+
+### 2.15. 라이브니쯔 실수 {#dalembert-1761}
+
+**문제:** 이상적인 주사위 두개를 던졌을 때, 두 주사위의 합이 12가 나올 확률은 11이 나올 확률과 같은가?
+
+With two balanced dice, is a throw of 12 as likely as a throw of 11?
+
+주사위 두개를 던졌을 때, 표본공간은 $\Omega = \{ (1,1), (1,2), \cdots, (6,6) \}$ 36가지 경우가 존재한다.
+합이 12가 나오는 경우는 $(6,6)$인 경우 하나고, 합이 11이 나오는 경우는 $(5,6), (6,5)$ 두가지 경우가 있다.
+따라서, $Pr(\text{주사위 합이 12}) = \frac{1}{36}$, $Pr(\text{주사위 합이 11}) = \frac{2}{36}= \frac{1}{18}$ 이 되어서
+두배 차이가 난다.
+
+### 2.16. 뷔폰의 바늘 {#buffon-1777}
+
+**문제:** 길이 $l$인 바늘을 평행선이 다수 그어져 있는 평면에 무작위로 던졌을 때, 바늘이 평행선과 걸칠 확률은 얼마나 되는가?
+단, 평행선의 길이는 $d>l$을 만족한다.
+
+A needle of length l is thrown at random on a plane on which a set of
+parallel lines separated by a distance  $d>l$ have been drawn. What is the probability
+that the needle will intersect one of the lines?
+
+자세한 사항은 [5. 뷔퐁 바늘(Buffon Needle)](https://statkclee.github.io/r-algorithm/r-monte-carlo-pi.html)을 참조한다.
+
+
+
 
 
