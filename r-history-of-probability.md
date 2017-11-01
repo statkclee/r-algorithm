@@ -29,7 +29,11 @@ history_df <- tribble(
     "달랑베르 - 동전던지기", "1754-07-01", "d’Alembert and the Croix ou Pile Article",
     "달랑베르 - 도박사의 오류", "1761-07-01", "d’Alembert and the Gambler’s Fallacy",
     "뷔퐁의 바늘 문제", "1777-07-01", "The Buffon Needle Problem",
-    "버트랜드 투표 문제", "1887-07-01", "Bertrand’s Ballot Problem"
+    "베르트랑 투표 문제", "1887-07-01", "Bertrand’s Ballot Problem",
+    "베르트랑의 수상한 세 상자", "1889-07-01", "Bertrand’s Strange Three Boxes",
+    "베르트랑의 현", "1889-07-01", "Bertrand’s Chords",
+    "프랜시스 골톤의 동전 던지기", "1894-07-01", "Three Coins and a Puzzle from Galton",
+    "생일문제", "1939-07-01", "Coinciding Birthdays"
 )
 
 history_df <- history_df %>% 
@@ -993,6 +997,281 @@ parallel lines separated by a distance  $d>l$ have been drawn. What is the proba
 that the needle will intersect one of the lines?
 
 자세한 사항은 [5. 뷔퐁 바늘(Buffon Needle)](https://statkclee.github.io/r-algorithm/r-monte-carlo-pi.html)을 참조한다.
+
+
+### 2.17. 베르트랑 투표문제 [^donga-ballot-problem] [^bertrand-park] {#bertrand-ballot-1887}
+
+[^donga-ballot-problem]: [동아사이언스(2016), 누가 이길까? 선거 개표의 수학](http://dongascience.donga.com/news.php?idx=11183)
+
+[^bertrand-park]: [박부성 (경남대학교 수학교육과), 베르트랑의 투표 문제](http://210.101.116.28/W_files/kiss6/10308786_pv.pdf)
+
+**문제:** 선거에서 피선거권자 $M$ 후보가 $m$표를 얻고 있는 반면에, $N$ 후보는 
+$n$ 표를 얻고 있다. 여기서 $m>n$ 관계가 성립한다. 개표를 쭉 진행하게 될 때,
+$M$ 후보가 한번도 선두를 빼끼지 않고 $N$ 후보를 앞설 확률이 $\frac{m-n}{m+n}$이 됨을 증명하시오.
+
+다양한 증명법이 존재한다. 이 문제에 대한 일반해는 1878년에 영국의 수학자 위트워스(W. A. Whitworth)가 처음 발표하였으나, 
+베르트랑이 복잡한 점화식을 이용하여 이 문제를 풀었으나, 
+답 자체가 매우 간단한 꼴이어서 아마도 간명하고 직접적인 풀이가 존재할 것으로 추측하였고,
+앙드레(D. André)가 “반전법(reflection method)”이라는 이름으로 증명하였다. 
+
+$$\begin{align}
+    P(\text{M 후보가 항상 득표수 많음}) 
+    & = \frac{\text{M 후보가 항상 득표수가 많은 경우의 수}}{\text{전체 가능한 개표 경우의 수}} \\
+    & = \frac{\text{M 후보가 항상 득표수가 많은 경우의 수 - N 후보가 득표수가 많은 경우의 수}}{\text{전체 가능한 개표 경우의 수}} \\
+    & = \frac{ {{m+n-1}\choose{m-1}} - {{m+n-1}\choose{q-1}} }{{{m+n}\choose{m}}} \\
+    & = \frac{m-n}{m+n}
+\end{align}
+$$
+
+#### 2.17.1. R 모의실험 코드 [^wiki-bertrand-ballot] [^betrand-ballot-soccer]
+
+[^wiki-bertrand-ballot]: [Wikipedia - Bertrand ballot theorem](https://en.wikipedia.org/wiki/Bertrand%27s_ballot_theorem)
+
+[^betrand-ballot-soccer]: [Data Genetrics - Bertrand Ballot and Soccer Games](http://datagenetics.com/blog/october22014/index.html)
+
+먼저 지지 않는 상황을 상정하면 이론 확률은 $\frac{m+1-n}{m+1}$이 되고, 모의실험을 설정하면 다음과 같다.
+
+1. 두 후보자의 투표를 설정: `rep("M", m)`, `rep("N", n)`
+1. 투표 결과를 예상으로 뽑아낸다: `sample(candid, replace=FALSE)`
+1. 동투표수를 가정하고 승리하는 경우를 상정한다: `cumsum(ballot=="M") < cumsum(ballot=="N")`
+1. 안정된 횟수만큼 모의실험하여 평균을 도출한다: `mean(replicate(1000, ballot_fn(m, n)))`
+
+
+~~~{.r}
+# 2. 이론 값: 동등 투표 허용 ------------
+m <- 3
+n <- 2
+
+(m+1-n)/(m+1)
+~~~
+
+
+
+~~~{.output}
+[1] 0.5
+
+~~~
+
+
+
+~~~{.r}
+# 3. 모의실험 ------------
+
+ballot_fn <- function(m, n){
+
+    candid_M <- rep("M", m)
+    candid_N <- rep("N", n)
+    
+    candid <- c(candid_M, candid_N)
+    
+    ballot <- sample(candid, replace=FALSE)
+    
+    is_win_path <- cumsum(ballot=="M") < cumsum(ballot=="N")
+    
+    ballot_win <- sum(is_win_path) == 0
+    
+    return(ballot_win)
+}
+
+mean(replicate(1000, ballot_fn(m, n)))
+~~~
+
+
+
+~~~{.output}
+[1] 0.495
+
+~~~
+
+항상 투표에서 이기는 상황을 상정하면 이론 확률은 $\frac{m-n}{m+n}$이 되고, 모의실험을 설정하면 다음과 같다.
+
+1. 두 후보자의 투표를 설정: `rep("M", m)`, `rep("N", n)`
+1. 투표 결과를 예상으로 뽑아낸다: `sample(candid, replace=FALSE)`
+1. 동투표수를 가정하고 승리하는 경우를 상정한다: `cumsum(ballot=="M") <= cumsum(ballot=="N")`, 
+1. 안정된 횟수만큼 모의실험하여 평균을 도출한다: `1-mean(replicate(1000, ballot_fn(m, n)))`
+
+
+
+~~~{.r}
+# 2. 이론 값: 동등 투표 허용 X ------------
+m <- 3
+n <- 2
+
+(m-n)/(m+n)
+~~~
+
+
+
+~~~{.output}
+[1] 0.2
+
+~~~
+
+
+
+~~~{.r}
+# 3. 모의실험 ------------
+
+ballot_fn <- function(m, n){
+    
+    candid_M <- rep("M", m)
+    candid_N <- rep("N", n)
+    
+    candid <- c(candid_M, candid_N)
+    
+    ballot <- sample(candid, replace=FALSE)
+    
+    is_win_path <- cumsum(ballot=="M") <= cumsum(ballot=="N")
+    
+    ballot_win <- sum(is_win_path) != 0
+    
+    return(ballot_win)
+}
+
+1- mean(replicate(1000, ballot_fn(m, n)))
+~~~
+
+
+
+~~~{.output}
+[1] 0.217
+
+~~~
+
+
+
+### 2.18. 베르트랑의 수상한 세 상자  {#bertrand-1889}
+
+**문제:** 서랍을 각각 두개 갖고 있는 상자가 3개 있다. 상자 A는 서랍 두개에 금화가 담겨있고,
+상자 B는 서랍 두개에 모두 은화가 답겨있고, 
+상자 C에는 은화가 다른 서랍하나에는 금화가 담겨있다.
+
+1. 상자를 하나 임의로 뽑았을 때, 상자 C가 선택될 확률은 얼마인가?
+1. 상자를 하나 임의로 뽑고, 서랍도 하나 무작위로 뽑아 열어봤다. 열어봤더니 금화였다.
+임의로 뽑은 상자가 상자 C인 확률은 얼마인가?
+
+<iframe width="300" height="180" src="https://www.youtube.com/embed/FNl7xv5ms90" frameborder="0" allowfullscreen></iframe>
+
+1.번 문제에 대해서 모든 상자가 동일하게 뽑힐 가능성이 있기 때문에, 상자 C가 뽑힐 확률은 
+$\frac{1}{3}$이 된다.
+
+2.번 문제 대해서, 베이즈 정리를 활용하여 확률을 계산할 수 있다.
+
+- $Pr(A)=Pr(B)=Pr(C)=\frac{1}{3}$
+- $Pr(\text{금화}|A) = 1, Pr(\text{금화}|B) = 0, Pr(\text{금화}|C) = \frac{1}{2}$
+
+따라서,
+
+$$Pr(C|\text{금화}) = \frac{Pr(\text{금화}|C)}{Pr(C)} {Pr(\text{금화}|C)}{Pr(C) +Pr(\text{금화}|B)}{Pr(B) +Pr(\text{금화}|A)}{Pr(A)} = \frac{\frac{1}{2}\times \frac{1}{3}}{\frac{1}{2} \times \frac{1}{3}+0 \times \frac{1}{3} + 1 \times \frac{1}{3}} = \frac{1}{3}$$
+
+
+### 2.19. 베르트랑의 현 [^wiki-bertrand-chord]  {#bertrand-chord-1889}
+
+[^wiki-bertrand-chord]: [위키 - 베르트랑의 역설 (확률)](https://ko.wikipedia.org/wiki/%EB%B2%A0%EB%A5%B4%ED%8A%B8%EB%9E%91%EC%9D%98_%EC%97%AD%EC%84%A4_(%ED%99%95%EB%A5%A0))
+
+**문제:** 원내부에 현을 임의로 잡는다. 현의 길이가 원에 내접하는 정삼각형 길이 보다 길 확률을 구하시오.
+
+"A chord is randomly chosen on a circle. Calculate the probability that the
+chord is longer than the side of an equilateral triangle inscribed inside the circle."
+
+*첫번째 해법:* 현의 종점을 무작위로 놓는 (random endpoint) 해법으로 $\frac{1}{3}$. 
+현의 시작점을 삼각형의 한 꼭짓점으로 하고, 현이 삼각형의 한 변보다 길어지기 위해서는 시작점의 반대쪽에 있는 변을 지나야 한다. 
+이 조건을 만족하기 위해서는 현과 시작점에서의 원의 접선이 이루는 각도가 60~120도가 되어야 한다. 
+현을 정의할 수 있는 각도는 0~180도 이므로 그래서 $\frac{60}{180} = \frac{1}{3}$.
+
+*두번째 해법:* 
+현과 원의 중심 사이의 거리를 무작위로 놓는 해법으로 $\frac{1}{2}$. 
+삼각형의 한 변과 평행한 현을 가정하면, 현이 변보다 안쪽에 있어야 변보다 길어질 수 있다. 
+원의 내접 정삼각형의 변은 반지름을 이등분하므로 $\frac{1}{2}$.
+
+*두번째 해법:* 
+현의 중점을 무작위로 놓는 해법으로 $\frac{1}{4}$. 
+삼각형에 내접하는 원을 그리고, 바깥쪽 원에 임의의 현을 하나 놓는다. 
+현의 중점이 안쪽 원에 놓일 확률을 구하면 되는데, 안쪽 원의 반지름은 바깥쪽 원의 반이므로 
+넓이가 4배 차이나기 때문에 $\frac{1}{4}$.
+
+<img src="fig/bertrand-chord.png" alt="베르트랑의 현" width="77%" />
+
+### 2.20. 프랜시스 골톤의 동전 던지기  {#galton-1894}
+
+**문제:** 공정한 동전을 세개 던진다. 모든 동전 세개가 동일한 면이 나올 확률은?
+
+"Three fair coins are tossed. What is the probability of all three coins
+turning up alike?"
+
+표본공간은 $\Omega = \{\text{앞앞앞}, \text{앞앞뒤}, \codts, \text{뒤뒤뒤} \}$ 8개로 구성되고 모두 동일한 확률로 발생하는 사건이다.
+모든 동전 세개가 동일한 면이 나오는 경우는 $\text{앞앞앞}, \text{뒤뒤뒤}$ 2가지 경우가 된다. 
+따라서, $\frac{2}{8} = \frac{1}{4}$.
+
+### 2.28. 생일 문제 {#Coinciding-Birthdays-1939}
+
+**문제:** 사교모임에 사람들이 모였는데, 동일한 생일을 갖는 사람이 적어도 50% 이상 되려면 몇명이나 모여야 할까?
+일년을 365일로 가정하고, 생일은 1년 365일 동일하다고 가정한다.
+
+자세한 내용은 [생일문제(Birthday Problem)](https://statkclee.github.io/r-algorithm/r-birthday-problem.html)를 참조한다.
+
+먼저 사교모임 참석자 $n$명의 생일이 전혀 일치하지 않는 경우의 수를 계산하자. 
+
+$$n_A = 365 \times 364 \times \cdots \times (365-n+1)$$
+
+$$\begin{align}
+   p_A &= n_A \\
+       &= \frac{365 \times 364 \times \cdots \times (365-n+1)}{365^5} \\
+       &= \bigg( \frac{365}{365} \bigg) \bigg( \frac{365-1}{365} \bigg) \bigg( \frac{365-2}{365} \bigg) \cdots \bigg( \frac{365-(n-1)}{365} \bigg) \\
+       &= \bigg( 1- \frac{1}{365} \bigg) \bigg(1- \frac{2}{365} \bigg) \bigg(1- \frac{3}{365} \bigg) \cdots \bigg( 1- \frac{n-1}{365} \bigg)
+\end{align}$$
+
+이제 양변에 로그를 취해서 정리하면 다음과 같다.
+
+$$\begin{align}
+   log(p_A) &= log\bigg( 1- \frac{1}{365} \bigg) + log \bigg(1- \frac{2}{365} \bigg) + log \bigg(1- \frac{3}{365} \bigg) \cdots +log \bigg( 1- \frac{n-1}{365} \bigg) \\
+           &\approx - \frac{1}{365}  - \frac{2}{365} - \cdots - - \frac{n-1}{365} \\
+           &= - \frac{1+2+\cdots + (n-1)}{365} \\
+           &= - \frac{\frac{n(n-1)}{2}}{365} = - \frac{n(n-1)}{2\times365}
+\end{align}$$
+
+$p_A$에 대해서 정리하고 적어도 두명이 동일한 생일을 갖는 경우는 $q_A = 1 - p_A$가 된다.
+
+$$\begin{align}
+   q_A &= 1 - p_A \\
+       &= 1 - exp \bigg\{-\frac{n(n-1)}{2\times365} \bigg\} \ge 0.5
+\end{align}$$
+
+$n$에 대해서 정리하면 $n \ge 23$.
+
+### 2.30. 심슨 패러독스 {#simpson-paradox-1951}
+
+### 2.31. 엘리베이터 문제  {#gamow-1958}
+
+**문제:** 한사람이 빌딩 $a$층에서 내려가는 엘리베이터를 기다리고 있다.
+빌딩은 $b(>a)$층으로 되어 있고, 하루 종일 오르내린다.
+엘리베이터가 도착했을 때, 엘리베이터가 내려가는 방향일 확률을 구하시오.
+
+"A person is waiting for the elevator on the ath floor in a building and
+wishes to go down. The building has $b(>a)$ floors. Assume the elevator is continually
+going up and down all day long. Calculate the probability that when the elevator
+arrives, it will be going down."
+
+엘리베이터는 $(b-a)$ 에서 내려갈 수도 있고 $(a-1)$ 로 올라갈 수도 있다.
+따라서, 엘리베이터가 내겨갈 확률은 다음과 같다.
+
+$$\frac{(b-a)}{(b-a) +(a-1)} = \frac{b-a}{b-1}$$
+
+
+### 2.32. 몬티홀 {#monty-hall-1975}
+
+
+### 2.33. 파론도 패러독스 {#parrondo-paradox-1996}
+
+
+
+
+
+
+
+
+
+
 
 
 
