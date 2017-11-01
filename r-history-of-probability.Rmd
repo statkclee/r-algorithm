@@ -984,6 +984,81 @@ $$\frac{(b-a)}{(b-a) +(a-1)} = \frac{b-a}{b-1}$$
 
 ### 2.32. 몬티홀 {#monty-hall-1975}
 
+**문제:** 상금이 걸린 몬티홀 TV 프로그램에는 문($X, Y, Z$)이 세개 있다. 세문 중 하나를 열면 고급 자동차가 있는 반면에
+나머지 두 문을 열면 염소가 있다. 참가자 중 하 명이 문 세개중 하나를 선택했다고 가정하자, $X$.
+몬티홀 TV 프로그램 진행자는 세 문 중 어떤 문을 열면 자동차가 있는지 알고 있어서 염소가 들어 있는 문, $Y$를 연다고 가정하자.
+이제 프로그램 진행자가 참가자에게 처음 선택을 계속 유지할지 (즉, $X), 혹은 아직 열리지 않은 다른 문(즉, $Y$)을 바꿀지 결정하게 한다.
+어떤 선택이 더 나은 선택인가?
+
+"In a TV prize-game, there are three doors (X, Y, and Z). One of
+them conceals a car while the other two doors hide a goat each. A contestant chooses
+one of the doors, say X. The game host knows which door hides the car and opens a
+door, say Y, which has a goat behind it. The host then gives the contestant the options
+of either sticking to her original choice (i.e., X) or of switching to the other unopened
+door (i.e., Z). Which is the better option?"
+
+- $C_X$: 참가자가 선택한 문
+- $C_Y$: 프로그램 진행자가 연 문
+- $C_Z$: 자동차가 숨겨진 문
+
+이제 참가자가 $C_X$ 문을 선택하고, 진행자가 $C_Y$를 열어 염소를 보여준 상태에서, 참가자에게 처음 선택한 문을 유지할지, 선택한 문을 버리고 다른 문을 선택할지 질문을 한다. 처음 선택을 유지하는 것이 좋은 전략일까? 아니면 문을 바꾸는 것이 좋은 전략일까? 베이즈 정리를 활용하여 확률을 계산해보자.
+
+$$\begin{align}
+  Pr(C_z | H_Y) &= \frac{Pr(H_Y | C_Z)Pr(C_Z)}{Pr(H_Y | C_X)Pr(C_X) + Pr(H_Y | C_Y)Pr(C_Y) + Pr(H_Y | C_Z)Pr(C_Z)} \\
+                &= \frac{1 \times \frac{1}{3}}{\frac{1}{2} \times \frac{1}{3} + 0 \times \frac{1}{3} + 1 \times \frac{1}{3}} \\
+                &= \frac{2}{3}
+\end{align}$$
+
+자세한 사항은 [몬티홀 문제(Monty Hall Problem)](https://statkclee.github.io/r-algorithm/r-monty-hall-problem.html)을 참조한다.
+
+1. 문뒤에 상황을 실제와 같이 모사한다: `doors <- sample(c("염소","염소","자동차"), replace=FALSE)`
+1. 참가자가 1차 선택을 한다: `init_choice <- sample(1:3,1)`
+1. 자동차가 아니고, 참가자가 선택한 것을 빼고 프로그램 진행자가 선택을 한다: `monty_choice <- i`
+1. 참가자가 1차 선택을 고수하는 경우: `keep_win <- ifelse(doors[init_choice] =="자동차", 1, 0)`
+1. 프로그램 진행자가 선택한 것과 참가자가 1차 선택한 것을 바꿔 선택 - 참가자가 1차 선택을 번복하는 경우: `switch_choice <- i`
+1. 선택을 번복하는 것을 10,000번 반복 모의실험: `mean(replicate(10000, monty_show()))`
+
+``` {r monty-hall-recode}
+monty_show <- function() {
+    
+    doors <- sample(c("염소","염소","자동차"), replace=FALSE)
+    
+    ## 참가자 1차 선택
+    
+    init_choice <- sample(1:3,1)
+    
+    ## 몬티 선택
+    for(i in 1:3) {
+        if(doors[i] == "자동차") {
+            next
+        } else if(i == init_choice) {
+            next
+        } else {
+            monty_choice <- i
+        }
+    }
+    
+    ## 참가자 1차 선택 고수
+    keep_win <- ifelse(doors[init_choice] =="자동차", 1, 0)
+    
+    ## 참가자 1차 선택 번복
+    for(i in 1:3) {
+        if(i == monty_choice) {
+            next
+        } else if(i == init_choice) {
+            next
+        } else {
+            switch_choice <- i
+        }
+    }
+    
+    switch_win <- ifelse(doors[switch_choice] =="자동차", 1, 0)
+    
+    return(switch_win)
+}
+
+mean(replicate(10000, monty_show()))
+```
 
 ### 2.33. 파론도 패러독스 {#parrondo-paradox-1996}
 
