@@ -1062,13 +1062,146 @@ mean(replicate(10000, monty_show()))
 
 ### 2.33. 파론도 패러독스 {#parrondo-paradox-1996}
 
+**문제:** 동전의 앞면이 나오면 $1, 뒷면이 나오는 게임 $G_1 , G_2 , G_3$을 생각해보자.
+단, 초기 게임 시작 비용은 $0 로 가정한다.
+
+- $G_1$: 첫번째 게임은 동전에 편의가 있어 동전을 던져 앞면이 나올 확률은 **0.495**가 나온다.
+- $G_2$: 두번째 게임은 게임을 진행할 때마다 순잔고가 3의 배수면 동전 A를 던지는데 앞면이 나올 확률은 **0.095**다. 
+순잔고가 3의 배수가 아니면 동전 B를 던지는데 앞면이 나올 확률은 **0.745**가 된다.
+- $G_3$: 세번째 게임은 앞선 $G_1$, $G_2$ 두 경기를 무작위로 즉, **0.5** 확률로 진행한다.
+
+설사 $G_1$, $G_2$ 게임이 돈을 잃는 게임이지만, $G_3$ 게임은 돈을 버는 게임이라는 것을 증명하시오.
+
+첫번째 $G_1$ 게임에 대한 기대값을 구하면, $\$ \times 0.495 - \$ 0.505 = -\$ 0.01$. 따라서, 돈을 잃는 게임이다.
+
+두번째 $G_2$ 게임에 대한 기대값은 $X_n$이 $X_{n-1}$에 의존하는 마코프 사슬을 이용해서 $\tilde{X_n} = X_n \text{mod 3}$와 같이 표현할 수 있다. 따라서, 전이확률행렬(transition probability matrix)은 다음과 같이 정의된다.
+
+$$P_2 =
+  \begin{bmatrix}
+      0   & 0.095 & 0.905 \\
+    0.255 &   0   & 0.745 \\
+    0.745 & 0.255 &   0
+  \end{bmatrix}$$
+
+동전 던지기를 충분히 반복한 후에 $\tilde{X_n}$에 대한 정상분포(stationary distribution)는 다음과 같다.
+
+$$\pi P_2 = \pi$$
+$$
+  \begin{align}
+                     &+ 0.255 \pi_1  &+ 0.745 \pi_2 &= \pi_0 , \\
+     0.095 \pi_0     &+              &+ 0.255 \pi_2 &= \pi_1 , \\
+     0.095 \pi_0     &+ 0.745 \pi_1  &+             &= \pi_2 
+  \end{align}$$
+
+$\pi_0 + \pi_1 + \pi_2 = 1$이라는 조건을 갖고 연립방정식을 풀면, $\pi = [0.384, 0.154, 0.462]$가 된다.
+따라서, 동전을 한번 던졌을 때 승리 기대값은 $0.384 \times (0.095) + 0.154 \times (.745) + 0.462 \times (.745) = \$ 0.495$, 평균 패배 기대값은 $\$ 0.505$, 승리와 패배에 대한 기대값을 더한 순손실 금액은 $\$ 0.01$이 된다.
+
+세번째 $G_2$ 게임에 대해서 $Y_n$도 마코프 사슬을 이용해서 $\tilde{Y_n} = Y_n \text{mod 3}$와 같이 표현할 수 있다.
+
+$$P_3 = \frac{1}{2} \times \bigg( P_1 + P_2 \bigg)$$
+
+동일한 방식으로 풀게 되면 $G_3$에 대한 순기대수익은 $\$0.016$이 된다.
+
+#### 2.33.1 모의실험 코드
+
+서로 다른 세가지 게임을 모사하는 모의실험 코드를 작성해서 게임결과를 통장잔고로 놓고 모의실험한다.
+
+``` {r parrondo-simulation}
+# 1. 문제: 파론도 패러독스 ---------------
+
+iter <- 1000L
+wallet <- 0L
+record_wallet <- 0
+
+## 1.1. 게임 1 
+
+game_one <- function(wallet=0L, iter=1000) {
+    
+    for(i in 1:iter) {
+        game_1 <- sample(c("앞면", "뒷면"), prob=c(0.495, 1-0.495), 1)
+        wallet_one <- ifelse(game_1 == "앞면", 1, -1)
+        wallet <- c(wallet, wallet_one)
+    }
+    return(wallet)
+}
+
+game_one_v <- cumsum(game_one(0, iter))
+
+## 1.2. 게임 2 
+
+game_two <- function(wallet=0L, iter = 1000) {
+    
+    for(i in 1:iter) {
+        if(sum(wallet) %% 3 == 0) {
+            coin_A <- sample(c("앞면", "뒷면"), prob=c(0.095, 1-0.095), 1)
+            wallet_two <- ifelse(coin_A == "앞면", 1, -1)
+        } else {
+            coin_B <- sample(c("앞면", "뒷면"), prob=c(0.745, 1-0.745), 1)
+            wallet_two <- ifelse(coin_B == "앞면", 1, -1)
+        }
+        wallet <- c(wallet, wallet_two)
+        # cat(i, ":", wallet, ":", wallet[length(wallet)],  "\n")
+    }
+    return(wallet)
+}
+
+game_two_v <- cumsum(game_two(0, iter))
 
 
+## 1.3. 게임 3 
 
 
+game_three <- function(iter=1000) {
+    
+    for(i in 1:iter) {
+        
+        play_game <- sample(c("앞면", "뒷면"), prob=c(1/2, 1/2), 1)
+        
+        if(play_game == "앞면") {
+            game_1 <- sample(c("앞면", "뒷면"), prob=c(0.495, 1-0.495), 1)
+            wallet <- ifelse(game_1 == "앞면", 1, -1)
+        } else {
+            if(wallet %% 3 == 0) {
+                coin_A <- sample(c("앞면", "뒷면"), prob=c(0.095, 1-0.095), 1)
+                wallet <- wallet + ifelse(coin_A == "앞면", 1, -1)
+            } else {
+                coin_B <- sample(c("앞면", "뒷면"), prob=c(0.745, 1-0.745), 1)
+                wallet <- wallet + ifelse(coin_B == "앞면", 1, -1)
+            }
+        }
+        
+        record_wallet <- c(record_wallet, wallet)
+    }
+    return(record_wallet)
+}
 
+game_three_v <- cumsum(game_three(iter))
 
+## 1.4. 데이터 정리 ------------ 
 
+parrondo_df <- data.frame(iteration=1:(iter+1), game_one = game_one_v, game_two = game_two_v, game_three =game_three_v)
+
+parrondo_df %>% 
+    gather(game, wallet, -iteration) %>% 
+      mutate(game = factor(game, levels = c("game_one", "game_two", "game_three"), labels=c("게임A", "게임B", "게임C"))) %>% 
+       ggplot(aes(iteration, wallet, color=game)) +
+         geom_line() +
+         theme_bw(base_family="NanumGothic") +
+         labs(title="파론도 패러독스", x="게임진행횟수", y="통장잔고($)", color="게임") +
+         scale_x_continuous(labels = scales::comma) +
+         theme(legend.position = "top") 
+         
+parrondo_df %>% 
+    gather(game, wallet, -iteration) %>% 
+    mutate(game = factor(game, levels = c("game_one", "game_two", "game_three"), labels=c("게임A", "게임B", "게임C"))) %>% 
+    ggplot(aes(iteration, wallet, color=game)) +
+    geom_line() +
+    theme_bw(base_family="NanumGothic") +
+    labs(title="파론도 패러독스", x="게임진행횟수", y="통장잔고($)", color="게임") +
+    scale_x_continuous(labels = scales::comma) +
+    theme(legend.position = "top")  +
+    facet_wrap(~game)
+```
 
 
 
