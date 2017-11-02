@@ -28,6 +28,7 @@ library(tidyverse)
 library(lubridate)
 library(dice)
 library(Rdice)
+library(googleVis)
 
 options(scipen = 999)
 options(family="NanumGothic")
@@ -38,7 +39,7 @@ options(family="NanumGothic")
 [^classic-problems-of-probability]: [Prakash Gorroochurn (2016), "Classic Problems of Probability", Wiley](https://www.amazon.com/Classic-Problems-Probability-Prakash-Gorroochurn/dp/1118063252)
 
 
-``` {r history-of-probability}
+``` {r history-of-probability, results='asis', echo=FALSE}
 # 0. 환경설정 --------------
 # library(timelineS) # devtools::install_github("daheelee/timelineS")
 # library(tidyverse)
@@ -62,7 +63,11 @@ history_df <- tribble(
     "베르트랑의 수상한 세 상자", "1889-07-01", "Bertrand’s Strange Three Boxes",
     "베르트랑의 현", "1889-07-01", "Bertrand’s Chords",
     "프랜시스 골톤의 동전 던지기", "1894-07-01", "Three Coins and a Puzzle from Galton",
-    "생일문제", "1939-07-01", "Coinciding Birthdays"
+    "생일문제", "1939-07-01", "Coinciding Birthdays",
+    "심슨의 역설", "1951-07-01", "Simpson’s Paradox",
+    "엘리베이터 문제", "1958-07-01", "Gamow, Stern, and Elevators",
+    "몬티홀", "1975-07-01", "Monty Hall, Cars, and Goats",
+    "파론도 패러독스", "1996-07-01", "Parrondo’s Perplexing Paradox"
 )
 
 history_df <- history_df %>% 
@@ -70,12 +75,31 @@ history_df <- history_df %>%
 
 # 2. 확률의 역사 연대기 --------------
 
-timelineS(history_df, main = "확률 연대기", buffer.days = 3600,
-          label.direction = "up", label.length = c(0.2,0.8,0.4,1.2), label.position = 3,
-          labels = paste0(history_df[[1]], "(", as.character(year(history_df[[2]])), ")", "\n", history_df[[3]]) )
+
+history_plt <- gvisTimeline(data=history_df,
+                    rowlabel="event", barlabel="event",
+                    start="event_date", end="event_date",
+                    options=list(width="1024px", height="270px", timeline="{showRowLabels:true}"))
+
+history_plt_header <- history_plt$html$header
+history_plt_header <- gsub("charset=utf-8", "charset=euc-kr", history_plt_header)
+history_plt$html$header <- history_plt_header
+
+plot(history_plt)
+
 ```
 
 ## 2. 연대별 중요 확률 문제 {#classic-probability-problems}
+
+``` {r timeline-classic}
+## 3.1. 19세기 이전 
+history_classic_df <- history_df %>% 
+    filter(event_date < "1800-01-01")
+
+timelineS(history_classic_df, main = "확률 연대기", buffer.days = 3600,
+          label.direction = "up", label.length = c(0.2,0.8,0.4,1.2), label.position = 3,
+          labels = paste0(history_classic_df[[1]]))
+```
 
 ### 2.1. 카다노 - 확률게임 {#cardano-1564}
 
@@ -761,6 +785,17 @@ that the needle will intersect one of the lines?
 자세한 사항은 [5. 뷔퐁 바늘(Buffon Needle)](https://statkclee.github.io/r-algorithm/r-monte-carlo-pi.html)을 참조한다.
 
 
+``` {r timeline-modern}
+## 3.2. 19세기 이후 
+history_modern_df <- history_df %>% 
+    filter(event_date > "1800-01-01")
+
+timelineS(history_modern_df, main = "확률 연대기", buffer.days = 3600,
+          label.direction = "up", label.length = c(0.2,0.8,0.4,1.2), label.position = 3,
+          labels = paste0(history_modern_df[[1]]) )
+```
+
+
 ### 2.17. 베르트랑 투표문제 [^donga-ballot-problem] [^bertrand-park] {#bertrand-ballot-1887}
 
 [^donga-ballot-problem]: [동아사이언스(2016), 누가 이길까? 선거 개표의 수학](http://dongascience.donga.com/news.php?idx=11183)
@@ -963,7 +998,39 @@ $$\begin{align}
 
 $n$에 대해서 정리하면 $n \ge 23$.
 
-### 2.30. 심슨 패러독스 {#simpson-paradox-1951}
+### 2.30. 심슨의 역설 {#simpson-paradox-1951}
+
+영국의 통계학자 에드워드 심슨이 정리한 역설(Simpson paradox)로, 전반적인 추세가 경향성이 존재하는 것으로 보이지만,
+그룹으로 나눠서 개별적으로 보게 되면 경향성이 사라지거나 해석이 반대로 되는 경우를 이른다.
+
+중요한 변수(lurking variable)가 빠져서 주로 이런 역설이 발생한다.
+
+| EBS 지식프라임 - 심슨의 패러독스: 평균에 대한 착각 | How statistics can be misleading - Mark Liddell    |
+|----------------------------------------------------|----------------------------------------------------|
+| <iframe width="300" height="180" src="https://www.youtube.com/embed/7qekbQ8Ra1E" frameborder="0" allowfullscreen></iframe> | <iframe width="300" height="180" src="https://www.youtube.com/embed/sxYrzzy3cq8" frameborder="0" allowfullscreen></iframe> |
+
+``` {r simpson-paradox}
+# 1. 문제: 심슨의 역설 ---------------
+
+simpson_df <- tribble(
+               ~x, ~y, ~color,
+               1, 6, 1,
+               2, 7, 1,
+               3, 8, 1,
+               4, 9, 1,
+               8, 1, 2,
+               9, 2, 2,
+               10, 3, 2,
+               11, 4, 2)
+
+ggplot(simpson_df, aes(x, y, color=factor(color))) +
+    geom_point(size=2) +
+    geom_smooth(method='lm',formula=y~x) +
+    geom_abline(intercept = 9.5, slope=-0.7, linetype="dotted", size=1.1) +
+    theme_bw(base_family="NanumGothic") +
+    labs(title="심슨의 오류", x="", y="", color="그룹")
+```    
+
 
 ### 2.31. 엘리베이터 문제  {#gamow-1958}
 
