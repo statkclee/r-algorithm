@@ -39,6 +39,7 @@ title: 데이터 과학을 위한 R 알고리즘
     - [원주율($\pi$)](r-monte-carlo-pi.html) 
     - [황금비(Golden Ratio)](r-golden-ratio.html)
 - **최적화(Optimization)**
+    - [R 조합수학(Combinatorics)](ml-combinatorics.html)        
     - [최대우도법(Maximum Likelihood Estimation, MLE)](r-mle-normal.html) 
 
 
