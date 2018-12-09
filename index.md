@@ -15,7 +15,7 @@ title: 데이터 과학을 위한 R 알고리즘
 
 ## 학습목차 
 
-- **R 코딩** [^grokking-algorithms] [^grokking-algorihtms-github]
+- **[R 알고리즘 코딩](r-algorithm.html)** [^grokking-algorithms] [^grokking-algorihtms-github]
     - [이진검색(Binary Search)](r-binary-search.html)
     - [선택정렬(Selectin Sort)](r-selection-sort.html)
     - [재귀(Recursion)](r-recursion.html)
