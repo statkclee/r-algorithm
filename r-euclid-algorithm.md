@@ -1,4 +1,15 @@
-# 데이터 과학을 위한 R 알고리즘
+---
+layout: page
+title: 데이터 과학을 위한 R 알고리즘
+subtitle: 유클리드 호제법(Euclidean Algorithm)-최대공약수
+output:
+  html_document: 
+    toc: yes
+    keep_md: yes
+  pdf_document:
+    latex_engine: xelatex
+mainfont: NanumGothic
+---
 
 
 
@@ -31,9 +42,8 @@ gmp::factorize(24)
 
 
 
-~~~{.output}
-Big Integer ('bigz') object of length 4:
-[1] 2 2 2 3
+~~~{.error}
+Error in loadNamespace(name): there is no package called 'gmp'
 
 ~~~
 
@@ -45,9 +55,8 @@ gmp::factorize(15)
 
 
 
-~~~{.output}
-Big Integer ('bigz') object of length 2:
-[1] 3 5
+~~~{.error}
+Error in loadNamespace(name): there is no package called 'gmp'
 
 ~~~
 

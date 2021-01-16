@@ -1,4 +1,15 @@
-# 데이터 과학을 위한 R 알고리즘
+---
+layout: page
+title: 데이터 과학을 위한 R 알고리즘
+subtitle: 최단 도시 연결(Minimal Spanning Tree)
+output:
+  html_document: 
+    toc: yes
+    keep_md: yes
+  pdf_document:
+    latex_engine: xelatex
+mainfont: NanumGothic
+---
 
 
 
@@ -50,6 +61,18 @@ Southland를 빨간색으로 색칠해서 지도상에 단지 두가지 색으�
 
 # devtools::install_github("hunzikp/MapColoring")
 library(MapColoring)
+~~~
+
+
+
+~~~{.error}
+Error in library(MapColoring): there is no package called 'MapColoring'
+
+~~~
+
+
+
+~~~{.r}
 library(sp)
 
 # 1. 체스판 만들기 --------------------------
@@ -65,8 +88,8 @@ chess_board <- as(as(chess_sg, "SpatialPixels"), "SpatialPolygons")
 
 
 
-~~~{.output}
-[1] 2
+~~~{.error}
+Error in getNColors(chess_board): could not find function "getNColors"
 
 ~~~
 
@@ -79,9 +102,8 @@ chess_board <- as(as(chess_sg, "SpatialPixels"), "SpatialPolygons")
 
 
 
-~~~{.output}
- [1] 1 2 1 2 1 2 1 2 2 1 2 1 2 1 2 1 1 2 1 2 1 2 1 2 2 1 2 1 2 1 2 1 1 2 1
-[36] 2 1 2 1 2 2 1 2 1 2 1 2 1 1 2 1 2 1 2 1 2 2 1 2 1 2 1 2 1
+~~~{.error}
+Error in getColoring(chess_board): could not find function "getColoring"
 
 ~~~
 
@@ -91,7 +113,18 @@ chess_board <- as(as(chess_sg, "SpatialPixels"), "SpatialPolygons")
 ## 2.3. 체스판 색칠 --------------------------
 candidate_colors <- RColorBrewer::brewer.pal(11, "Paired")
 optimal_colors <- getOptimalContrast(x=chess_board, col=candidate_colors)
+~~~
 
+
+
+~~~{.error}
+Error in getOptimalContrast(x = chess_board, col = candidate_colors): could not find function "getOptimalContrast"
+
+~~~
+
+
+
+~~~{.r}
 par(mar=c(0,0,0,0))
 par(mfrow=c(1,2))
 
@@ -99,4 +132,11 @@ plot(chess_board)
 plot(chess_board, col=optimal_colors)
 ~~~
 
-<img src="fig/chess-board-colouring-1.png" style="display: block; margin: auto;" />
+
+
+~~~{.error}
+Error in plot.SpatialPolygons(x, ...): object 'optimal_colors' not found
+
+~~~
+
+<img src="fig/chess-board-colouring-1.png" title="plot of chunk chess-board-colouring" alt="plot of chunk chess-board-colouring" style="display: block; margin: auto;" />

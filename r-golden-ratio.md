@@ -1,5 +1,16 @@
-# 데이터 과학을 위한 R 알고리즘
-`r Sys.Date()`  
+---
+layout: page
+title: 데이터 과학을 위한 R 알고리즘
+subtitle: 황금비(Golden Ratio)
+date: "2021-01-16"
+output:
+  html_document: 
+    toc: yes
+    keep_md: yes
+  pdf_document:
+    latex_engine: xelatex
+mainfont: NanumGothic
+---
 
 
 
@@ -73,7 +84,7 @@ abline(h = 0, lty = 3)
 points(gr_root, 0, pch = 16, cex = 2, col="blue")
 ~~~
 
-<img src="fig/golden-ratio-plot-1.png" style="display: block; margin: auto;" />
+<img src="fig/golden-ratio-plot-1.png" title="plot of chunk golden-ratio-plot" alt="plot of chunk golden-ratio-plot" style="display: block; margin: auto;" />
 
 
 ## 2. 근 찾기(Root Finding) [^newton-raphson-book] {#root-finding}

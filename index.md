@@ -9,8 +9,6 @@ title: 데이터 과학을 위한 R 알고리즘
 >
 > "Statistical thinking will one day be as necessary for efficient citizenship as the ability to read and write" Samuel S. Wilks paraphrasing Herbert G. Wells
 >
- 
- 
 
 
 ## 학습목차 
@@ -31,7 +29,6 @@ title: 데이터 과학을 위한 R 알고리즘
     - [확률 모의실험(R 연습문제 중심)](r-probability-exercise.html) 
     - [상트페테르부르크의 역설 (St. Petersburg paradox)](r-petersburg-paradox.html) 
     - [산타 선물 문제 (교란순열, Derangement)](r-hat-derangement.html) 
-- **[모의실험(Simulation)](r-statistical-simulation.html)**
 - **문제 해결**    
     - [최단 도시 연결(Minimal Spanning Tree)](r-minimal-spanning-tree.html) 
     - [지도 색칠 문제(Graph Coloring Problem)](r-graph-coloring-problem.html) 
@@ -41,7 +38,8 @@ title: 데이터 과학을 위한 R 알고리즘
 - **최적화(Optimization)**
     - [R 조합수학(Combinatorics)](ml-combinatorics.html)        
     - [최대우도법(Maximum Likelihood Estimation, MLE)](r-mle-normal.html) 
-
+- **[모의실험(Simulation)](r-statistical-simulation.html)**
+    - 몬테카를로 모의실험: [역산법(Inverse Trasnfomation Sampling)](inverse-transformation-sampling.html)
 
 
 [^grokking-algorithms]: [Aditya Y. Bhargava(2016, "Grokking Algorithms - An illustrated guide for programmers and other curious people", Manning Publications](https://www.manning.com/books/grokking-algorithms)

@@ -1,5 +1,16 @@
-# 데이터 과학을 위한 R 알고리즘
-`r Sys.Date()`  
+---
+layout: page
+title: 데이터 과학을 위한 R 알고리즘
+subtitle: 최대우도법(Maximum Likelihood Estimation, MLE)
+date: "2021-01-16"
+output:
+  html_document: 
+    toc: yes
+    keep_md: yes
+  pdf_document:
+    latex_engine: xelatex
+mainfont: NanumGothic
+---
 
 
 
@@ -93,7 +104,7 @@ normal_data_fit_p <- ggplot(normal_df, aes(normal_smpl)) +
 gridExtra::grid.arrange(normal_density_p, normal_sample_p, normal_data_fit_p, normal_cummulative_p, nrow=2)
 ~~~
 
-<img src="fig/normal-distribution-four-plot-1.png" style="display: block; margin: auto;" />
+<img src="fig/normal-distribution-four-plot-1.png" title="plot of chunk normal-distribution-four-plot" alt="plot of chunk normal-distribution-four-plot" style="display: block; margin: auto;" />
 
 ### 2.3. 최대우도함수 모수 추정 {#mle-normal-distribution-estimation}
 
@@ -106,17 +117,17 @@ gridExtra::grid.arrange(normal_density_p, normal_sample_p, normal_data_fit_p, no
 descdist(normal_smpl, discrete = FALSE)
 ~~~
 
-<img src="fig/normal-distribution-mle-estimation-1.png" style="display: block; margin: auto;" />
+<img src="fig/normal-distribution-mle-estimation-1.png" title="plot of chunk normal-distribution-mle-estimation" alt="plot of chunk normal-distribution-mle-estimation" style="display: block; margin: auto;" />
 
 ~~~{.output}
 summary statistics
 ------
-min:  -3.596596   max:  4.821282 
-median:  0.02485401 
-mean:  0.01775656 
-estimated sd:  0.9933239 
-estimated skewness:  0.02869129 
-estimated kurtosis:  3.091715 
+min:  -3.852232   max:  3.574522 
+median:  -0.01142564 
+mean:  0.01221688 
+estimated sd:  0.996048 
+estimated skewness:  0.01697189 
+estimated kurtosis:  2.950873 
 
 ~~~
 
@@ -132,8 +143,8 @@ estimated kurtosis:  3.091715
 Fitting of the distribution ' norm ' by maximum likelihood 
 Parameters:
        estimate  Std. Error
-mean 0.01775656 0.011104311
-sd   0.99326184 0.007851898
+mean 0.01221688 0.011134764
+sd   0.99598577 0.007873431
 
 ~~~
 
@@ -143,7 +154,7 @@ sd   0.99326184 0.007851898
 plot(normal_smpl_fit)
 ~~~
 
-<img src="fig/normal-distribution-mle-estimation-2.png" style="display: block; margin: auto;" />
+<img src="fig/normal-distribution-mle-estimation-2.png" title="plot of chunk normal-distribution-mle-estimation" alt="plot of chunk normal-distribution-mle-estimation" style="display: block; margin: auto;" />
 
 
 ### 2.4. 최적화 함수 활용 최대우도함수 모수 추정 [^mle-LL] {#optim-mle-normal-distribution-estimation}
@@ -175,7 +186,7 @@ mle(minuslogl = LL, start = list(mu = 2, sigma = 2))
 
 Coefficients:
         mu      sigma 
-0.01775676 0.99326235 
+0.01221696 0.99598641 
 
 ~~~
 
@@ -195,7 +206,7 @@ mle(minuslogl = LL, start = list(mu = 2, sigma = 2), method = "L-BFGS-B",
 
 Coefficients:
         mu      sigma 
-0.01775715 0.99326243 
+0.01221734 0.99598277 
 
 ~~~
 
@@ -229,18 +240,18 @@ lm(formula = y ~ x)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
--3.4643 -0.6746 -0.0192  0.6910  3.0781 
+-3.4999 -0.6888  0.0041  0.7059  3.4377 
 
 Coefficients:
             Estimate Std. Error t value            Pr(>|t|)    
-(Intercept)  2.95674    0.06304   46.91 <0.0000000000000002 ***
-x            7.01471    0.10940   64.12 <0.0000000000000002 ***
+(Intercept)   2.9652     0.0626   47.36 <0.0000000000000002 ***
+x             7.0038     0.1072   65.32 <0.0000000000000002 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 1.009 on 998 degrees of freedom
-Multiple R-squared:  0.8047,	Adjusted R-squared:  0.8045 
-F-statistic:  4112 on 1 and 998 DF,  p-value: < 0.00000000000000022
+Residual standard error: 0.993 on 998 degrees of freedom
+Multiple R-squared:  0.8104,	Adjusted R-squared:  0.8102 
+F-statistic:  4266 on 1 and 998 DF,  p-value: < 0.00000000000000022
 
 ~~~
 
@@ -253,7 +264,7 @@ data.frame(x, y) %>%
       geom_abline(slope=7, intercept=3, color="red", size=1.5, alpha=0.7)
 ~~~
 
-<img src="fig/normal-dist-mle-estimation-reg1-1.png" style="display: block; margin: auto;" />
+<img src="fig/normal-dist-mle-estimation-reg1-1.png" title="plot of chunk normal-dist-mle-estimation-reg1" alt="plot of chunk normal-dist-mle-estimation-reg1" style="display: block; margin: auto;" />
 
 ~~~{.r}
 ## 우도함수 회귀식 추정
@@ -269,14 +280,7 @@ mle(reg_LL, start = list(beta0 = 5, beta1 = 2, mu = 0, sigma=1))
 
 
 
-~~~{.output}
-
-Call:
-mle(minuslogl = reg_LL, start = list(beta0 = 5, beta1 = 2, mu = 0, 
-    sigma = 1))
-
-Coefficients:
-    beta0     beta1        mu     sigma 
- 3.978371  7.014714 -1.021629  1.007844 
+~~~{.error}
+Error in solve.default(oout$hessian): system is computationally singular: reciprocal condition number = 2.23318e-17
 
 ~~~

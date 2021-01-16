@@ -1,5 +1,16 @@
-# 데이터 과학을 위한 R 알고리즘
-`r Sys.Date()`  
+---
+layout: page
+title: 데이터 과학을 위한 R 알고리즘
+subtitle: 요세푸스 문제(Josephus Problem)
+date: "2021-01-16"
+output:
+  html_document: 
+    toc: yes
+    keep_md: yes
+  pdf_document:
+    latex_engine: xelatex
+mainfont: NanumGothic
+---
 
 
 

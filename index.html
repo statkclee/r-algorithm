@@ -4,35 +4,35 @@
     <meta charset="utf-8">
     <meta name="generator" content="pandoc">
     <title>Software Carpentry: 데이터 과학을 위한 R 알고리즘</title>
-    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
-    <link rel="stylesheet" type="text/css" href="css/swc.css" />
-    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
-    <meta charset="UTF-8" />
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-    
-      ga('create', 'UA-59802572-19', 'auto');
-      ga('send', 'pageview');
-    
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="css/swc.css" />
+    <link rel="alternate" type="application/rss+xml" title="Software Carpentry Blog" href="http://software-carpentry.org/feed.xml"/>
+    <meta charset="UTF-8" />
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-59802572-19', 'auto');
+      ga('send', 'pageview');
+    
     </script>
   </head>
   <body class="lesson">
     <div class="container card">
-      <div class="banner">
-        <a href="http://software-carpentry.org" title="Software Carpentry">
-          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
-        </a>
+      <div class="banner">
+        <a href="http://software-carpentry.org" title="Software Carpentry">
+          <img alt="Software Carpentry banner" src="img/software-carpentry-banner.png" />
+        </a>
       </div>
       <article>
       <div class="row">
@@ -40,16 +40,16 @@
                     <h1 class="title">데이터 과학을 위한 R 알고리즘</h1>
           <p><img src="fig/ct-unplugged-4th-paradigm-korea.png" width="57%" /></p>
 <aside class="callout panel panel-info">
-<div class="panel-heading">
-<h3 id="ai-is-a-superpower"><span class="glyphicon glyphicon-pushpin"></span>AI is a Superpower</h3>
-</div>
+<section id="ai-is-a-superpower" class="panel-heading">
+<h3><span class="glyphicon glyphicon-pushpin"></span>AI is a Superpower</h3>
+</section>
 <div class="panel-body">
 <p>“Statistical thinking will one day be as necessary for efficient citizenship as the ability to read and write” Samuel S. Wilks paraphrasing Herbert G. Wells</p>
 </div>
 </aside>
 <h2 id="학습목차">학습목차</h2>
 <ul>
-<li><strong>R 코딩</strong> <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> <a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>
+<li><strong><a href="r-algorithm.html">R 알고리즘 코딩</a></strong> <a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>
 <ul>
 <li><a href="r-binary-search.html">이진검색(Binary Search)</a></li>
 <li><a href="r-selection-sort.html">선택정렬(Selectin Sort)</a></li>
@@ -69,7 +69,6 @@
 <li><a href="r-petersburg-paradox.html">상트페테르부르크의 역설 (St. Petersburg paradox)</a></li>
 <li><a href="r-hat-derangement.html">산타 선물 문제 (교란순열, Derangement)</a></li>
 </ul></li>
-<li><strong><a href="r-statistical-simulation.html">모의실험(Simulation)</a></strong></li>
 <li><strong>문제 해결</strong>
 <ul>
 <li><a href="r-minimal-spanning-tree.html">최단 도시 연결(Minimal Spanning Tree)</a></li>
@@ -86,11 +85,15 @@
 </li>
 <li><a href="r-mle-normal.html">최대우도법(Maximum Likelihood Estimation, MLE)</a></li>
 </ul></li>
+<li><strong><a href="r-statistical-simulation.html">모의실험(Simulation)</a></strong>
+<ul>
+<li>몬테카를로 모의실험: <a href="inverse-transformation-sampling.html">역산법(Inverse Trasnfomation Sampling)</a></li>
+</ul></li>
 </ul>
 <aside class="callout panel panel-info">
-<div class="panel-heading">
-<h3 id="빅오-표기법"><span class="glyphicon glyphicon-pushpin"></span>빅오 표기법</h3>
-</div>
+<section id="빅오-표기법" class="panel-heading">
+<h3><span class="glyphicon glyphicon-pushpin"></span>빅오 표기법</h3>
+</section>
 <div class="panel-body">
 <ul>
 <li><span class="math inline">\(\mathcal{O}(log(n))\)</span>: 로그소요 시간, 예를 들어 이진검색(Binary Search)</li>
@@ -139,36 +142,36 @@
 <li><a href="http://sympy.xwmooc.org/">기호 수학(Symbolic Math)</a></li>
 <li><a href="http://statkclee.github.io/politics">선거와 투표</a></li>
 </ul>
-<div class="footnotes">
+<section class="footnotes" role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p><a href="https://www.manning.com/books/grokking-algorithms">Aditya Y. Bhargava(2016, “Grokking Algorithms - An illustrated guide for programmers and other curious people”, Manning Publications</a><a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p><a href="https://github.com/egonSchiele/grokking_algorithms">Code for the book Grokking Algorithms</a><a href="#fnref2">↩</a></p></li>
+<li id="fn1" role="doc-endnote"><p><a href="https://www.manning.com/books/grokking-algorithms">Aditya Y. Bhargava(2016, “Grokking Algorithms - An illustrated guide for programmers and other curious people”, Manning Publications</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p><a href="https://github.com/egonSchiele/grokking_algorithms">Code for the book Grokking Algorithms</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
-</div>
+</section>
         </div>
       </div>
       </article>
-      <div class="footer">
-        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
-        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/lesson-template">Source</a>
-        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
-        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
+      <div class="footer">
+        <a class="label swc-blue-bg" href="http://software-carpentry.org">Software Carpentry</a>
+        <a class="label swc-blue-bg" href="https://github.com/swcarpentry/lesson-template">Source</a>
+        <a class="label swc-blue-bg" href="mailto:admin@software-carpentry.org">Contact</a>
+        <a class="label swc-blue-bg" href="LICENSE.html">License</a>
       </div>
     </div>
-    <!-- Javascript placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
-    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-    
-      ga('create', 'UA-37305346-2', 'auto');
-      ga('send', 'pageview');
-    
+    <!-- Javascript placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="css/bootstrap/bootstrap-js/bootstrap.js"></script>
+    <script src='https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    
+      ga('create', 'UA-37305346-2', 'auto');
+      ga('send', 'pageview');
+    
     </script>
   </body>
 </html>
