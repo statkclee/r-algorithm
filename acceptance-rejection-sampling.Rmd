@@ -1,0 +1,80 @@
+---
+layout: page
+title: "데이터 과학을 위한 R 알고리즘"
+subtitle: "기각 표본추출법(Acceptance-Rejection Sampling)"
+author:
+- name: "이광춘"
+  affiliation: "[Tidyverse Korea](https://www.facebook.com/groups/tidyverse/)"
+tags: ["데이터 과학", "Data Science", "데이터 사이언스", "Monte Carlo", "Acceptance-Rejection Sampling", "과학기술"]
+date: "`r Sys.Date()`"
+output:
+  html_document: 
+    include:
+      after_body: footer.html
+      before_body: header.html
+    theme: default
+    toc: yes
+    toc_depth: 2
+    toc_float: true
+    highlight: tango
+    code_folding: show
+    number_section: true
+    self_contained: yes
+editor_options: 
+  chunk_output_type: console
+bibliography: bibliography-algorithm.bib
+csl: biomed-central.csl
+---
+
+```{r setup2, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE,
+                      comment="", digits = 3, tidy = FALSE, prompt = FALSE, fig.align = 'center')
+
+library(reticulate)
+```
+
+# 기각 표본추출법 {#rejection-method}
+
+기각 표본추출법(Acceptance-Rejection Sampling)은 특정 확률분포에서 표본을 추출하는데 효율적이기 때문에 많이 사용된다. 즉 다음 두가지 조건이 만족되는 경우 유용하다.
+
+-   확률밀도함수(PDF, Probality Density Function)을 알고 있어야 한다.
+-   하지만, 직접 표본을 추출하는 것이 쉽지 않아야 한다.
+
+# 수식 일반화 {#math-rejection}
+
+# R 코드 [^kai-rejection] {#rejection-r-code}
+
+[^kai-rejection]: [Allen Kei (2018. 5. 22), "R Tutorial 28: Acceptance Rejection Method for Sampling (Envelope a Distribution)"](https://www.youtube.com/watch?v=WFswb-zLe4Y)
+
+다음 함수에서 확률표본을 추출하는 문제를 풀어보자. 
+먼저 다음 함수가 확률밀도함수가 되는지 확인해야 한다. 즉, 확률은 모든 경우의 수를 더할 경우 1이 되어야 한다.
+
+https://equplus.net/
+
+$\sqrt{ \frac{2}{\pi} } \times \exp\biggl(\ -\frac{x^2}{2} \biggr)$
+
+```{r}
+library(latex2exp)
+library(Hmisc)
+
+latexTranslate("1/2*x^2")
+
+# Tex("$\\sqrt{ \\frac{2}{\\pi} } \\times \\exp\\biggl(\\ -\\frac{x^2}{2} \\biggr)$", output='expression')
+
+```
+
+
+```{r stat-function}
+library(tidyverse)
+
+ggplot(data.frame(x = rnorm(1000)), aes(x)) +
+  geom_density() +
+  stat_function(fun = dnorm, colour = "red")
+```
+
+
+
+$X \sim \mathcal{N}(\mu,\,\sigma^{2})$
+
+
+

@@ -1,0 +1,103 @@
+---
+layout: page
+title: "데이터 과학을 위한 R 알고리즘"
+subtitle: "수식에서 그래프까지"
+author:
+- name: "이광춘"
+  affiliation: "[Tidyverse Korea](https://www.facebook.com/groups/tidyverse/)"
+tags: ["데이터 과학", "Data Science", "데이터 사이언스", "Monte Carlo", "Acceptance-Rejection Sampling", "과학기술"]
+date: "`r Sys.Date()`"
+output:
+  html_document: 
+    include:
+      after_body: footer.html
+      before_body: header.html
+    theme: default
+    toc: yes
+    toc_depth: 2
+    toc_float: true
+    highlight: tango
+    code_folding: show
+    number_section: true
+    self_contained: yes
+editor_options: 
+  chunk_output_type: console
+bibliography: bibliography-algorithm.bib
+csl: biomed-central.csl
+---
+
+```{r setup2, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE,
+                      comment="", digits = 3, tidy = FALSE, prompt = FALSE, fig.align = 'center')
+
+library(reticulate)
+```
+
+
+# 수식 [^eqplus] {#math-rejection}
+
+[^eqplus]: [EquPlus: database of equations - TEX/Latex/MathType/MathML codes](https://equplus.net/)
+
+<https://equplus.net/> 웹사이트에서 $\LaTeX$ 코드를 받을 수 있다. 기본적으로 $\LaTeX$ 작성은 [overleaf](https://www.overleaf.com/) 웹사이트에서 수식을 작성하고 공유한다.
+
+# $\LaTeX$ &rarr; R 표현식 {#latex-to-expression}
+
+수식을 $\LaTeX$으로 표현하면 컴퓨터로 계산하기 위해 R 혹은 파이썬 표현식(expression)으로 변환시켜야 한다. 
+
+```{r latex2exp}
+library(latex2exp)
+library(Hmisc)
+
+latexTranslate("1/2*x^2")
+
+# Tex("$\\sqrt{ \\frac{2}{\\pi} } \\times \\exp\\biggl(\\ -\\frac{x^2}{2} \\biggr)$", output='expression')
+
+```
+
+
+
+# R 코드 [^kai-rejection] {#rejection-r-code}
+
+[^kai-rejection]: [Allen Kei (2018. 5. 22), "R Tutorial 28: Acceptance Rejection Method for Sampling (Envelope a Distribution)"](https://www.youtube.com/watch?v=WFswb-zLe4Y)
+
+다음 함수에서 확률표본을 추출하는 문제를 풀어보자. 
+먼저 다음 함수가 확률밀도함수가 되는지 확인해야 한다. 즉, 확률은 모든 경우의 수를 더할 경우 1이 되어야 한다.
+
+
+
+$\sqrt{ \frac{2}{\pi} } \times \exp\biggl(\ -\frac{x^2}{2} \biggr)$
+
+
+
+```{r stat-function}
+library(tidyverse)
+
+ggplot(data.frame(x = rnorm(1000)), aes(x)) +
+  geom_density() +
+  stat_function(fun = dnorm, colour = "red")
+```
+
+
+# `ggplot` 수식 표현 [@chang2012r] {#ggplot-math-expression}
+
+[7.2 Using Mathematical Expressions in Annotations](https://r-graphics.org/recipe-annotate-text-math)을 참조하면 `ggplot`에 수식을 넣을 수 있다. 방법은 `plotmath`을 사용하는 것인데, [Mathematical Annotation in R](https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/plotmath.html)을 참조한다.
+
+```{r ggplot-math-expression}
+library(tidyverse)
+library(latex2exp)
+
+normal_tbl <- tibble(normal_var = rnorm(10000, mean = 0, sd = 1))
+
+normal_tbl %>% 
+  ggplot(aes(normal_var)) +
+    geom_histogram(aes(y=..density..), bins = 50) +
+    # geom_density() +
+    stat_function(data = normal_tbl,
+                  fun = dnorm,
+                  args = list(mean = 0, sd = 1), color = "red") +
+    annotate("text", x = 2, y = 0.3, parse = TRUE, size = 5,
+             label = "frac(1, sqrt(2 * pi)) * e ^ {-x^2 / 2}")
+
+```
+
+

@@ -13,6 +13,7 @@ title: 데이터 과학을 위한 R 알고리즘
 
 ## 학습목차 
 
+- [수식에서 그래프까지](from-math-to-expression.html)
 - **[R 알고리즘 코딩](r-algorithm.html)** [^grokking-algorithms] [^grokking-algorihtms-github]
     - [이진검색(Binary Search)](r-binary-search.html)
     - [선택정렬(Selectin Sort)](r-selection-sort.html)
@@ -38,8 +39,9 @@ title: 데이터 과학을 위한 R 알고리즘
 - **최적화(Optimization)**
     - [R 조합수학(Combinatorics)](ml-combinatorics.html)        
     - [최대우도법(Maximum Likelihood Estimation, MLE)](r-mle-normal.html) 
-- **[모의실험(Simulation)](r-statistical-simulation.html)**
-    - 몬테카를로 모의실험: [역산법(Inverse Trasnfomation Sampling)](inverse-transformation-sampling.html)
+- **[몬테카를로 모의실험(Monet-Carlo Simulation)](r-statistical-simulation.html)**
+    - [역산법(Inverse Trasnfomation Sampling)](inverse-transformation-sampling.html)
+    - [기각법(Acceptance-Rejection Sampling)](acceptance-rejection-sampling.html)
 
 
 [^grokking-algorithms]: [Aditya Y. Bhargava(2016, "Grokking Algorithms - An illustrated guide for programmers and other curious people", Manning Publications](https://www.manning.com/books/grokking-algorithms)
