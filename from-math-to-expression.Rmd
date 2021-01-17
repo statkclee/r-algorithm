@@ -40,64 +40,87 @@ library(reticulate)
 
 <https://equplus.net/> 웹사이트에서 $\LaTeX$ 코드를 받을 수 있다. 기본적으로 $\LaTeX$ 작성은 [overleaf](https://www.overleaf.com/) 웹사이트에서 수식을 작성하고 공유한다.
 
-# $\LaTeX$ &rarr; R 표현식 {#latex-to-expression}
+# `ggplot` 수식 표기법 [@chang2012r] {#ggplot-math-expression}
 
-수식을 $\LaTeX$으로 표현하면 컴퓨터로 계산하기 위해 R 혹은 파이썬 표현식(expression)으로 변환시켜야 한다. 
+[7.2 Using Mathematical Expressions in Annotations](https://r-graphics.org/recipe-annotate-text-math)을 참조하면 `ggplot`에 수식을 넣을 수 있다. 방법은 `plotmath`을 사용하는 것인데, [Mathematical Annotation in R](https://astrostatistics.psu.edu/su07/R/html/grDevices/html/plotmath.html)을 참조한다.
 
-```{r latex2exp}
-library(latex2exp)
-library(Hmisc)
-
-latexTranslate("1/2*x^2")
-
-# Tex("$\\sqrt{ \\frac{2}{\\pi} } \\times \\exp\\biggl(\\ -\\frac{x^2}{2} \\biggr)$", output='expression')
-
-```
-
-
-
-# R 코드 [^kai-rejection] {#rejection-r-code}
-
-[^kai-rejection]: [Allen Kei (2018. 5. 22), "R Tutorial 28: Acceptance Rejection Method for Sampling (Envelope a Distribution)"](https://www.youtube.com/watch?v=WFswb-zLe4Y)
-
-다음 함수에서 확률표본을 추출하는 문제를 풀어보자. 
-먼저 다음 함수가 확률밀도함수가 되는지 확인해야 한다. 즉, 확률은 모든 경우의 수를 더할 경우 1이 되어야 한다.
-
-
-
-$\sqrt{ \frac{2}{\pi} } \times \exp\biggl(\ -\frac{x^2}{2} \biggr)$
-
-
-
-```{r stat-function}
-library(tidyverse)
-
-ggplot(data.frame(x = rnorm(1000)), aes(x)) +
-  geom_density() +
-  stat_function(fun = dnorm, colour = "red")
-```
-
-
-# `ggplot` 수식 표현 [@chang2012r] {#ggplot-math-expression}
-
-[7.2 Using Mathematical Expressions in Annotations](https://r-graphics.org/recipe-annotate-text-math)을 참조하면 `ggplot`에 수식을 넣을 수 있다. 방법은 `plotmath`을 사용하는 것인데, [Mathematical Annotation in R](https://stat.ethz.ch/R-manual/R-devel/library/grDevices/html/plotmath.html)을 참조한다.
+`ggplot2` 팩키지에 `expression()` 함수를 사용해서 `plotmath` 그래픽 수식 표기를 수월하게 진행할 수 있다. 
 
 ```{r ggplot-math-expression}
 library(tidyverse)
-library(latex2exp)
 
 normal_tbl <- tibble(normal_var = rnorm(10000, mean = 0, sd = 1))
 
 normal_tbl %>% 
   ggplot(aes(normal_var)) +
-    geom_histogram(aes(y=..density..), bins = 50) +
+    geom_histogram(aes(y=..density..), bins = 50, fill ="midnightblue") +
     # geom_density() +
     stat_function(data = normal_tbl,
                   fun = dnorm,
                   args = list(mean = 0, sd = 1), color = "red") +
+    # labs(x = expression(glue::glue("{mu} = 0, {sigma} =1"))) +
+    labs(x = expression(paste("정규분포: ", mu, " = 0, ", sigma, " = 1"))) +
     annotate("text", x = 2, y = 0.3, parse = TRUE, size = 5,
-             label = "frac(1, sqrt(2 * pi)) * e ^ {-x^2 / 2}")
-
+             label = "frac(1, sqrt(2 * pi)) * e ^ {-x^2 / 2}") +
+    theme_minimal()
 ```
 
+
+## 흔한 `ggplot` 그래프 [@tyler2018blog] {#ggplot-math-expression-composition}
+
+`ggplot` 그래프에 수식과 관련된 정보를 함께 표현할 경우 문자열(String), 수학 표기법, 변수 등 다양한 요소가 한번에 필요한 경우가 있다. 
+
+![](fig/ggplot-math-notation.png)
+
+$\mu$와 $\sigma$ 수식 표기 뿐만 아니라 변수에 넣은 값도 함께 `bquote()`함수를 사용해서 `ggplot` 시각화를 할 수 있다.
+
+`bquote("표준정규분포: " ~ mu == .(mu_val) ~ "그리고" ~ sigma^2 == .(sigma_val)))` 
+
+
+```{r ggplot-math-expression-normal}
+mu_val    <- 0
+sigma_val <- 1
+
+normal_tbl %>% 
+  ggplot(aes(normal_var)) +
+    geom_histogram(aes(y=..density..), bins = 50, fill ="midnightblue") +
+    stat_function(data = normal_tbl,
+                  fun = dnorm,
+                  args = list(mean = 0, sd = 1), color = "red") +
+    # labs(x = expression(glue::glue("{mu} = 0, {sigma} =1"))) +
+    labs(x = expression(paste("정규분포: ", mu, " = 0, ", sigma, " = 1")),
+         title = bquote("표준정규분포: " ~ mu == .(mu_val) ~ "그리고" ~ sigma^2 == .(sigma_val))) +
+    annotate("text", x = 2, y = 0.3, parse = TRUE, size = 5,
+             label = "frac(1, sqrt(2 * pi)) * e ^ {-x^2 / 2}") +
+    theme_minimal()
+```
+
+
+## $\LaTeX$ &rarr; R 그래프 수식 {#latex-to-expression-graph}
+
+수식을 $\LaTeX$으로 표현하면 이를 `latex2exp` 팩키지를 사용해서 곧장 `ggplot` 시각화에 사용할 수도 있다.
+`latex2exp`는 $\LaTeX$ 문자열을 `plotmath` 표현식으로 변환하는 역할을 한다. 
+
+```{r latex2exp-plotmath}
+library(latex2exp)
+library(Hmisc)
+
+normal_tbl %>% 
+  ggplot(aes(normal_var)) +
+    geom_histogram(aes(y=..density..), bins = 50, fill ="midnightblue") +
+    stat_function(data = normal_tbl,
+                  fun = dnorm,
+                  args = list(mean = 0, sd = 1), color = "red") +
+    labs(x     = TeX("모수: $\\mu = 0, \\sigma^2 = 1 "),
+         title = TeX("$X \\sim \\mathcal{N}(\\mu,\\,\\sigma^{2})$"))+
+    theme_minimal()
+```
+
+일부 $\LaTeX$ 코드만 변환이 가능해서 아래 $\LaTeX$ 코드가 모두 변환이 된 것이 아니다. `latex2exp_supported()` 사용하면 적용가능한 $\LaTeX$ 기호를 확인하고 사용한다.
+
+$X \sim \mathcal{N}(\mu,\,\sigma^{2})$
+
+```{r latex-supported}
+latex2exp_supported()
+```
 
