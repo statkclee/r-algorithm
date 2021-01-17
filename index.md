@@ -10,7 +10,7 @@ title: 데이터 과학을 위한 R 알고리즘
 > "Statistical thinking will one day be as necessary for efficient citizenship as the ability to read and write" Samuel S. Wilks paraphrasing Herbert G. Wells
 >
 
-
+ 
 ## 학습목차 
 
 - [수식에서 그래프까지](from-math-to-expression.html)

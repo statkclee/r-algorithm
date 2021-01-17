@@ -34,11 +34,11 @@ library(reticulate)
 ```
 
 
-# 수식 [^eqplus] {#math-rejection}
+# 수식 편집기 [^eqplus] {#math-rejection}
 
 [^eqplus]: [EquPlus: database of equations - TEX/Latex/MathType/MathML codes](https://equplus.net/)
 
-<https://equplus.net/> 웹사이트에서 $\LaTeX$ 코드를 받을 수 있다. 기본적으로 $\LaTeX$ 작성은 [overleaf](https://www.overleaf.com/) 웹사이트에서 수식을 작성하고 공유한다.
+기본적으로 $\LaTeX$ 작성은 [overleaf](https://www.overleaf.com/) 웹사이트에서 수식을 작성하고 공유한다. 정규분포 등 많은 수식은 <https://equplus.net/> 웹사이트에서 이미 $\LaTeX$ 코드로 작성되어 있어 다운로드 받을 수 있다. 
 
 # `ggplot` 수식 표기법 [@chang2012r] {#ggplot-math-expression}
 
@@ -124,3 +124,24 @@ $X \sim \mathcal{N}(\mu,\,\sigma^{2})$
 latex2exp_supported()
 ```
 
+# 컴퓨터 대수학 [^sympy-yacas] {#computer-algebra}
+
+[^sympy-yacas]: [SymPy vs. Yacas](https://github.com/sympy/sympy/wiki/SymPy-vs.-Yacas)
+
+- [심파이(Sympy)](https://www.sympy.org/) 
+    - [Sympy Online Shell](https://live.sympy.org/)
+    - [기호 수학(Symbolic Math)](https://statkclee.github.io/symbolic-math/)
+    - [R 팩키지: `caracas`](https://cran.r-project.org/web/packages/caracas/index.html)
+- [`yacas`](http://yacas.org/)    
+    - [R 팩키지: `Ryacas`](https://mikl.dk/post/2019-ryacas-v100/)
+
+$\lambda \exp(-\lambda x)$    
+    
+    
+```{r conda-install-sympy}
+
+
+
+
+```
+    
